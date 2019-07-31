@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Excel;
+
+use App\Imports\ReporteImport;
 
 class FileController extends Controller
 {
-    /**Retorno de la vita */
+    /**Retorno de la vista */
     public function fileView(){
         return view('file');
     }
@@ -14,16 +17,12 @@ class FileController extends Controller
     /**Subida y manejo del archivo */
     public function uploadFile(Request $request){
         // $request->validate([
-        //     'fileToUpload' => 'required|file|max:1024',
+        //     'fileToUpload' => 'required|mimes:xlsx',
         // ]);
-        
-        $fileName = "fileName".time().'.'.request()->fileToUpload->getClientOriginalExtension();
-        $request->fileToUpload->storeAs('prueba', $fileName);
 
-        return back()
-            ->with('Exitoso','Se ha guardado el archivo.');
+        $collection = Excel::toCollection(new ReporteImport, request()->file('fileToUpload'));
+        return $collection;
 
-        
     }
 }
 
