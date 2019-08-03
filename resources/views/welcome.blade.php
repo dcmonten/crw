@@ -25,7 +25,7 @@
 @endsection
 
 @section('content')
-HELLO WORLD
+Para subir archivos, haga clic en Paginas Wiki
 @endsection
 @section('scripts')
 
