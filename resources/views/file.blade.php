@@ -38,7 +38,7 @@
                                 <input type="file" accept=".xlsx" class="form-control-file" name="fileToUpload" id="exampleInputFile" aria-describedby="fileHelp">
                                 <small id="fileHelp" class="form-text text-muted">Por favor subir un archivo formato xlsx.</small>
                             </div>
-                            <button type="submit" class="btn btn-primary">Enviar</button>
+                            <button id="upload-file-btn" type="submit" class="btn btn-primary">Enviar</button>
                         </form>
                 </div>
             </div>

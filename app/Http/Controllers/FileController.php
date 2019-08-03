@@ -21,8 +21,8 @@ class FileController extends Controller
         // ]);
 
         $collection = Excel::toCollection(new ReporteImport, request()->file('fileToUpload'));
-        return $collection;
+
+        return view('report', ['collection' => $collection]);
 
     }
 }
-
