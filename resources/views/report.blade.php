@@ -32,9 +32,32 @@
     Reporte Colaborativo
     <h1>
   </header>
+<div>
+  <h2>
+    Metadata
+  </h2>
+  {{--
+    Metadata:
+    $collection[X] es el archivo X
+    $collection[X][n] es la fila n del archivo X
+    $collection[X][n][m] es el dato de la fila n de la columna m del archivo X
+    --}}
+  <h3>Título de la página</h3>
+  <p>{{$collection[0][0][0]}}<p>
+  <h3>Profesor</h3>
+  <p>{{$collection[0][2][0]}}<p>
+<div>
+
+  @php
+
+  $aportes = array_slice(json_decode($collection[0], true), 2);
+
+  @endphp
+
   <section>
 
     <div class="table-responsive">
+
       <table class="table table-striped table-sm">
         <thead>
           <tr>
@@ -47,19 +70,19 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($collection as $row)
-            @foreach( $row as $data )
 
-            <tr>
-              <td>{{$data[0]}}</td>
-              <td>{{$data[1]}}</td>
-              <td>{{$data[2]}}</td>
-              <td>{{strip_tags($data[3])}}</td>
-              <td class="toHTML" id={{'data'.$data[1]}}>{{  strip_tags($data[4])}}</td>
-            </tr>
+          @foreach( $aportes as $data )
 
-            @endforeach
+          <tr>
+            <td>{{$data[0]}}</td>
+            <td>{{$data[1]}}</td>
+            <td>{{$data[2]}}</td>
+            <td>{{strip_tags($data[3])}}</td>
+            <td class="toHTML" id={{'data'.$data[1]}}>{{  strip_tags($data[4])}}</td>
+          </tr>
+
           @endforeach
+
 
 
 
