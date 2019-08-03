@@ -38,7 +38,7 @@
           </h6>
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" href="#">
+              <a class="nav-link active" href="{{route('inicio')}}">
 
               <span data-feather="file"></span>
                 Páginas Wiki <span class="sr-only">(current)</span>
