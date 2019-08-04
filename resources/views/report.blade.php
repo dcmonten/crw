@@ -78,7 +78,9 @@
             <td>{{$data[1]}}</td>
             <td>{{$data[2]}}</td>
             <td>{{strip_tags($data[3])}}</td>
-            <td class="toHTML" id={{'data'.$data[1]}}>{{  strip_tags($data[4])}}</td>
+            <td class="toHTML" id={{'data'.$data[1]}}>
+              {{$data[4]}}
+            </td>
           </tr>
 
           @endforeach
@@ -96,5 +98,20 @@
 
 @endsection
 @section('scripts')
-<script></script>
+<script>
+  <!-- Se toma el último elemento de la tabla recorriendo los tags: tbody->tr->td, y a eso se le saca el texto puro con tags y todo -->
+  var texto_con_tags = $("tbody tr td").last().text();
+
+  <!-- Aquí creé un área de texto para meter todo el HTML del reporte -->
+  var area = document.createElement('textarea');
+
+  <!-- Y entonces a eso le meto el HTML -->
+  area.innerHTML = texto_con_tags;
+
+  <!-- Tomo el tag <section> y le agrego un título junto con el área de texto que ahora tiene el HTML -->
+  var section = $(document.getElementsByTagName('section'));
+  section.append("<h1>Reporte Final</h1>");
+  section.append(area.value);
+
+</script>
 @endsection
