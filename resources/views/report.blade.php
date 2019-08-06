@@ -24,6 +24,11 @@
 </li>
 @endsection
 
+@section('nombre_del_profesor')
+{{$collection[0][2][0]}}
+@endsection
+
+
 @section('content')
 
 <article class='container'>
@@ -32,40 +37,37 @@
     Reporte Colaborativo
     <h1>
   </header>
-<div>
-  <h2>
-    Metadata
-  </h2>
-  {{--
-    Metadata:
-    $collection[X] es el archivo X
-    $collection[X][n] es la fila n del archivo X
-    $collection[X][n][m] es el dato de la fila n de la columna m del archivo X
-    --}}
-  <h3>Título de la página</h3>
-  <p>{{$collection[0][0][0]}}<p>
-  <h3>Profesor</h3>
-  <p>{{$collection[0][2][0]}}<p>
-<div>
+  <div>
+    {{--
+      Metadata:
+      $collection[X] es el archivo X
+      $collection[X][n] es la fila n del archivo X
+      $collection[X][n][m] es el dato de la fila n de la columna m del archivo X
+      --}}
+    <h3>Título de la página</h3>
+    <p>{{$collection[0][0][0]}}<p>
+  <div>
 
   @php
 
   $aportes = array_slice(json_decode($collection[0], true), 2);
+  $version_final = end($aportes);
 
   @endphp
+
+  <div id="final" class="hidden">{{$version_final[4]}}</div>
 
   <section>
 
     <div class="table-responsive">
 
-      <table class="table table-striped table-sm">
+      <table class="table table-striped table-sm hidden">
         <thead>
           <tr>
             <th>Nombre</th>
             <th>Nº Version</th>
             <th>Fecha</th>
             <th>Cambios</th>
-            <th>Final</th>
 
           </tr>
         </thead>
@@ -78,15 +80,9 @@
             <td>{{$data[1]}}</td>
             <td>{{$data[2]}}</td>
             <td>{{strip_tags($data[3])}}</td>
-            <td class="toHTML" id={{'data'.$data[1]}}>
-              {{$data[4]}}
-            </td>
           </tr>
 
           @endforeach
-
-
-
 
         </tbody>
       </table>
@@ -94,24 +90,23 @@
 
 
   </section>
+  <section id="pagina" class="row">
+
+    <h1 class="col-12">Reporte Final</h1>
+
+    <div class="col-lg-6">
+      <h2>Última edición por</h2>
+      <p>{{$version_final[0]}}</p>
+    </div>
+    <div class="col-lg-6">
+      <h2>Fecha</h2>
+      <p>{{$version_final[2]}}</p>
+    </div>
+  </section>
+
 </article>
 
 @endsection
 @section('scripts')
-<script>
-  <!-- Se toma el último elemento de la tabla recorriendo los tags: tbody->tr->td, y a eso se le saca el texto puro con tags y todo -->
-  var texto_con_tags = $("tbody tr td").last().text();
-
-  <!-- Aquí creé un área de texto para meter todo el HTML del reporte -->
-  var area = document.createElement('textarea');
-
-  <!-- Y entonces a eso le meto el HTML -->
-  area.innerHTML = texto_con_tags;
-
-  <!-- Tomo el tag <section> y le agrego un título junto con el área de texto que ahora tiene el HTML -->
-  var section = $(document.getElementsByTagName('section'));
-  section.append("<h1>Reporte Final</h1>");
-  section.append(area.value);
-
-</script>
+<script src="../js/temporal.js" type="text/javascript"></script>
 @endsection

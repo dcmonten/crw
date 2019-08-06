@@ -26,7 +26,14 @@
 
 @section('content')
 Para subir archivos, haga clic en Paginas Wiki
+<section>
+  <div id="heatmap"></div>
+</section>
 @endsection
+
 @section('scripts')
+
+<script src="../js/heatmap.js" type="text/javascript"></script>
+
 
 @endsection
