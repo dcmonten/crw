@@ -33,7 +33,7 @@
 
 <article class='container'>
   <header>
-    <h1>
+    <h1 class="text-center">
     Reporte Colaborativo
     <h1>
   </header>
@@ -45,28 +45,45 @@
     $collection[X][n][m] es el dato de la fila n de la columna m del archivo X
     --}}
   @php
-
+//ignorando las dos primeras filas, que contienen los headers
   $aportes = array_slice(json_decode($collection[0], true), 2);
+//seleccionando solamente la última línea
   $version_final = end($aportes);
-
-  @endphp
-
+//obtener los colaboradores únicos por fuerza bruta
+  $colaboradores=array();
+  foreach ($aportes as $key=>$value){
+    $colaboradores[$key]=$value[0];
+  }
+  $colaboradores=array_unique($colaboradores);
+  //Elimino al primer colabolador, porque es el profesor
+  array_shift($colaboradores);
+@endphp
 
   <div id="final" class="hidden">{{$version_final[4]}}</div>
 
   <section id="pagina" class="row">
 
 
-    <h2 class="col-12">{{$collection[0][0][0]}}</h2>
-    <div class="col-lg-6">
-      <h2>Última edición por</h2>
+    <h2 class="col-12 text-center">{{$collection[0][0][0]}}</h2>
+    <h3 class="col-12">Colaboradores: </h3>
+    <ul class="col-12">
+      @foreach( $colaboradores as $persona )
+
+        <li class="col-6">{{$persona}}</li>
+
+      @endforeach
+    </ul>
+    <div class="col-lg-6 text-center">
+      <h3>Última edición por</h3>
       <p>{{$version_final[0]}}</p>
     </div>
-    <div class="col-lg-6">
-      <h2>Fecha</h2>
+    <div class="col-lg-6 text-center">
+      <h3>Fecha</h3>
       <p>{{$version_final[2]}}</p>
     </div>
   </section>
+
+
 
   <section>
 
