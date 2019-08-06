@@ -136,10 +136,18 @@ $aportes_individuales=array();
 
     </div>
   </section>
+<section id="charts">
+  <div id="heatmap"></div>
+  <div id="barchart"></div>
+  <div id="piechart"></div>
+</section>
 
 </article>
 
 @endsection
 @section('scripts')
 <script src="../js/temporal.js" type="text/javascript"></script>
+<script src="../js/heatmap.js" type="text/javascript"></script>
+<script src="../js/stacked_barchart.js" type="text/javascript"></script>
+<script src="../js/pie_chart.js" type="text/javascript"></script>
 @endsection
