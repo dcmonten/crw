@@ -9,5 +9,8 @@
   area.innerHTML = texto_con_tags;
 
 /*  <!-- Tomo el tag <section> y le agrego un título junto con el área de texto que ahora tiene el HTML -->*/
-  var section = $('#pagina');
+  var section = $('#final');
+
+  section.empty();
+  
   section.append(area.value);

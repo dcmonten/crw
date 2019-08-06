@@ -40,15 +40,14 @@
             <li class="nav-item">
               <a class="nav-link active" href="{{route('inicio')}}">
 
-              <span data-feather="file"></span>
-                Páginas Wiki <span class="sr-only">(current)</span>
+              <span data-feather="upload"></span>
+                Subir archivos <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
-
-                  <span data-feather="layers"></span>
-                Historial de Versiones
+                <span data-feather="bar-chart-2"></span>
+                Estadísticas por página
               </a>
             </li>
             <li class="nav-item">
@@ -59,10 +58,12 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
-                <span data-feather="bar-chart-2"></span>
-                Estadísticas por página
+
+                  <span data-feather="layers"></span>
+                Historial de Versiones
               </a>
             </li>
+
           </ul>
 
           <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">

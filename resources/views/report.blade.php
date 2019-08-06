@@ -89,35 +89,21 @@ $aportes_individuales=array();
 
 @endphp
 
-  <div id="final" class="hidden">{{$version_final[4]}}</div>
-  <div id="aporte_por_estudiante">
-
-    @foreach( $aportes_individuales as $persona=>$contribuciones )
-
-      <h3 class="col-6">{{$persona}}</h3>
-      @foreach( $contribuciones as $fecha=>$contribucion )
-      <p>{{$contribucion}}</p>
-      <small>{{$fecha}}</small>
-      @endforeach
-
-    @endforeach
-
-
-
-
-  </div>
-
   <section id="pagina" class="row">
 
 
     <h2 class="col-12 text-center">{{$collection[0][0][0]}}</h2>
     <h3 class="col-12">Colaboradores: </h3>
     <ul class="col-12">
-      @foreach( $colaboradores as $persona )
+      @forelse( $colaboradores as $persona )
 
-        <li class="col-6">{{$persona}}</li>
+        <li class="col-12">{{$persona}}</li>
 
-      @endforeach
+      @empty
+
+        <li class="col-12">No hay colaboradores</li>
+
+      @endforelse
     </ul>
     <div class="col-lg-6 text-center">
       <h3>Última edición por</h3>
@@ -127,42 +113,28 @@ $aportes_individuales=array();
       <h3>Fecha</h3>
       <p>{{$version_final[2]}}</p>
     </div>
+
+    <div id="final">{{$version_final[4]}}</div>
+
   </section>
 
+  <section id="aportes">
+    <div id="aporte_por_estudiante">
 
+      @foreach( $aportes_individuales as $persona=>$contribuciones )
 
-  <section>
+        <h3 class="col-6">{{$persona}}</h3>
 
-    <div class="table-responsive">
+        @foreach( $contribuciones as $fecha=>$contribucion )
 
-      <table class="table table-striped table-sm">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Nº Version</th>
-            <th>Fecha</th>
-            <th>Cambios</th>
+        <small>{{$fecha}}</small>
+        <p>{{$contribucion}}</p>
 
-          </tr>
-        </thead>
-        <tbody>
+        @endforeach
 
-          @foreach( $aportes as $data )
+      @endforeach
 
-          <tr>
-            <td>{{$data[0]}}</td>
-            <td>{{$data[1]}}</td>
-            <td>{{$data[2]}}</td>
-            <td>{{strip_tags($data[3])}}</td>
-          </tr>
-
-          @endforeach
-
-        </tbody>
-      </table>
     </div>
-
-
   </section>
 
 </article>
