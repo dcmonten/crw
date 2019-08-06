@@ -37,17 +37,13 @@
     Reporte Colaborativo
     <h1>
   </header>
-  <div>
-    {{--
-      Metadata:
-      $collection[X] es el archivo X
-      $collection[X][n] es la fila n del archivo X
-      $collection[X][n][m] es el dato de la fila n de la columna m del archivo X
-      --}}
-    <h3>Título de la página</h3>
-    <p>{{$collection[0][0][0]}}<p>
-  <div>
 
+  {{--
+    Metadata:
+    $collection[X] es el archivo X
+    $collection[X][n] es la fila n del archivo X
+    $collection[X][n][m] es el dato de la fila n de la columna m del archivo X
+    --}}
   @php
 
   $aportes = array_slice(json_decode($collection[0], true), 2);
@@ -55,13 +51,28 @@
 
   @endphp
 
+
   <div id="final" class="hidden">{{$version_final[4]}}</div>
+
+  <section id="pagina" class="row">
+
+
+    <h2 class="col-12">{{$collection[0][0][0]}}</h2>
+    <div class="col-lg-6">
+      <h2>Última edición por</h2>
+      <p>{{$version_final[0]}}</p>
+    </div>
+    <div class="col-lg-6">
+      <h2>Fecha</h2>
+      <p>{{$version_final[2]}}</p>
+    </div>
+  </section>
 
   <section>
 
     <div class="table-responsive">
 
-      <table class="table table-striped table-sm hidden">
+      <table class="table table-striped table-sm">
         <thead>
           <tr>
             <th>Nombre</th>
@@ -89,19 +100,6 @@
     </div>
 
 
-  </section>
-  <section id="pagina" class="row">
-
-    <h1 class="col-12">Reporte Final</h1>
-
-    <div class="col-lg-6">
-      <h2>Última edición por</h2>
-      <p>{{$version_final[0]}}</p>
-    </div>
-    <div class="col-lg-6">
-      <h2>Fecha</h2>
-      <p>{{$version_final[2]}}</p>
-    </div>
   </section>
 
 </article>
