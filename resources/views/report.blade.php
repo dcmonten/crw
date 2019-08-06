@@ -46,20 +46,66 @@
     --}}
   @php
 //ignorando las dos primeras filas, que contienen los headers
+
   $aportes = array_slice(json_decode($collection[0], true), 2);
+
 //seleccionando solamente la última línea
+
   $version_final = end($aportes);
+
+
 //obtener los colaboradores únicos por fuerza bruta
+
   $colaboradores=array();
-  foreach ($aportes as $key=>$value){
+  foreach ($aportes as $key=>$value)
+  {
     $colaboradores[$key]=$value[0];
   }
   $colaboradores=array_unique($colaboradores);
-  //Elimino al primer colabolador, porque es el profesor
+
+
+//Elimino al primer colabolador, porque es el profesor
   array_shift($colaboradores);
+
+
+//ahora, con los colaboradores únicos, se almacena cada aporte por colaborador
+
+$aportes_individuales=array();
+
+  foreach ($colaboradores as $persona)
+  {
+    $arreglo_de_aportes=array();
+    foreach ($aportes as $value)
+    {
+      if ($persona==$value[0])
+      {
+        $arreglo_de_aportes[$value[2]]= strip_tags($value[3]);
+      }
+    $aportes_individuales[$persona]=$arreglo_de_aportes;
+    }
+  }
+
+//Ahora se tiene cada usuario como clave de los aportes, y cada fecha como clave del aporte
+
 @endphp
 
   <div id="final" class="hidden">{{$version_final[4]}}</div>
+  <div id="aporte_por_estudiante">
+
+    @foreach( $aportes_individuales as $persona=>$contribuciones )
+
+      <h3 class="col-6">{{$persona}}</h3>
+      @foreach( $contribuciones as $fecha=>$contribucion )
+      <p>{{$contribucion}}</p>
+      <small>{{$fecha}}</small>
+      @endforeach
+
+    @endforeach
+
+
+
+
+  </div>
 
   <section id="pagina" class="row">
 
