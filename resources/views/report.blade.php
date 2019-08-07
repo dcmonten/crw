@@ -58,7 +58,7 @@
 //seleccionando solamente la última línea
 
   $version_final = end($aportes);
-
+  
 
 //obtener los colaboradores únicos por fuerza bruta
 
