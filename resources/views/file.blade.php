@@ -35,7 +35,7 @@
                         <form action="/upload-file" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <input type="file" accept=".xlsx" class="form-control-file" name="fileToUpload" id="exampleInputFile" aria-describedby="fileHelp">
+                                <input type="file" accept=".xlsx" class="form-control-file" name="fileToUpload[]" id="exampleInputFile" aria-describedby="fileHelp" multiple>
                                 <small id="fileHelp" class="form-text text-muted">Por favor subir un archivo formato xlsx.</small>
                             </div>
                             <button id="upload-file-btn" type="submit" class="btn btn-primary">Enviar</button>

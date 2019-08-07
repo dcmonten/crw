@@ -20,9 +20,15 @@ class FileController extends Controller
         //     'fileToUpload' => 'required|mimes:xlsx',
         // ]);
 
-        $collection = Excel::toCollection(new ReporteImport, request()->file('fileToUpload'));
+        $files = $request->file('fileToUpload');
 
-        return view('report', ['collection' => $collection]);
-
+        $arrayFiles = array();
+        
+        foreach($files as $file){
+            $collection = Excel::toCollection(new ReporteImport, $file);            
+            array_push($arrayFiles, $collection);
+        }
+                    
+        return view('report', ['collection' => $arrayFiles]);
     }
 }
