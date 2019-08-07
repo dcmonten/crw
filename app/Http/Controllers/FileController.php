@@ -23,12 +23,12 @@ class FileController extends Controller
         $files = $request->file('fileToUpload');
 
         $arrayFiles = array();
-        
+
         foreach($files as $file){
-            $collection = Excel::toCollection(new ReporteImport, $file);            
+            $collection = Excel::toCollection(new ReporteImport, $file);
             array_push($arrayFiles, $collection);
         }
-                    
-        return view('report', ['collection' => $arrayFiles]);
+
+        return view('report', ['colecciones' => $arrayFiles]);
     }
 }

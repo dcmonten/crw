@@ -24,6 +24,11 @@
 </li>
 @endsection
 
+//Esta sección sólo hace que se tome el primer elemento. Después hay que modificar para que se usen varios
+@section('que_funcione_solo_1_elemento_del_arreglo')
+{{$collection = $colecciones[0]}}
+@endsection
+
 @section('nombre_del_profesor')
 {{$collection[0][2][0]}}
 @endsection
@@ -45,6 +50,7 @@
     $collection[X][n][m] es el dato de la fila n de la columna m del archivo X
     --}}
   @php
+
 //ignorando las dos primeras filas, que contienen los headers
 
   $aportes = array_slice(json_decode($collection[0], true), 2);
