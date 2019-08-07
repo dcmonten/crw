@@ -123,9 +123,9 @@
     @endforeach
   </section>
 
-<section id="reporte" class="row">
+<section id={{'reporte'.$numero}} class="row">
   @foreach( $arreglo_de_reportes as $numero => $reporte)
-  <section id={{'pagina'.$numero}}} class="row">
+  <section id={{'pagina'.$numero}} class="row">
 
     <!--
     Titulo de la Página: $reporte[0]
@@ -161,7 +161,7 @@
 
   </section>
 
-  <section id="aportes">
+  <section id={{'aporte'.$numero}}>
     <div id="aporte_por_estudiante">
 
       @foreach( $reporte[1] as $persona=>$contribuciones )
