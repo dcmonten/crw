@@ -157,7 +157,7 @@
       <p>{{$reporte[3][2]}}</p>
     </div>
 
-    <div class="reportes_finales" id="final">{{$reporte[3][4]}}</div>
+    <div class="reportes_finales" id={{'final'.$numero}}>{{$reporte[3][4]}}</div>
 
   </section>
 
