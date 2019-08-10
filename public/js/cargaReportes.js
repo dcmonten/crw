@@ -28,6 +28,11 @@ $("[id^=titulo]").click(function(){
   });
 });
 
+//imgfluid y table-responsive
+$("table").addClass("table-responsive w-100");
+$("img").addClass("img-fluid");
+
+
 //Función que cuando carga el documento, sólo muestra el primer reporte
 $(document).ready(function() {
   $("[id^=pagina]").each(function() {

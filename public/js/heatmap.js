@@ -22,106 +22,100 @@ var options = {
   },
   plotOptions: {
     heatmap: {
-      shadeIntensity: 0.5,
-
+      enableShades: false,
       colorScale: {
         ranges: [{
-            from: -30,
-            to: 5,
-            name: 'low',
-            color: '#BDECB6'
+            from: 0,
+            to: 33,
+            name: 'bajo',
+            color: '#8B8B8B'
           },
           {
-            from: 6,
-            to: 20,
-            name: 'medium',
-            color: '#86dc79'
+            from: 34,
+            to: 66,
+            name: 'medio',
+            color: '#404040'
           },
           {
-            from: 21,
-            to: 45,
-            name: 'high',
-            color: '#66bd59'
-          },
-          {
-            from: 46,
-            to: 55,
-            name: 'extreme',
-            color: '#1b5712'
+            from: 67,
+            to: 100,
+            name: 'alto',
+            color: '#000000'
           }
         ]
       }
     }
   },
   dataLabels: {
-    enabled: false
+    enabled: true
   },
+  colors: ["#008FFB"],
   series: [{
       name: 'Jan',
       data: generateData(20, {
-        min: -30,
-        max: 55
+        min: 0,
+        max: 100
       })
     },
     {
       name: 'Feb',
       data: generateData(20, {
-        min: -30,
-        max: 55
+        min: 0,
+        max: 100
       })
     },
     {
       name: 'Mar',
       data: generateData(20, {
-        min: -30,
-        max: 55
+        min: 0,
+        max: 100
       })
     },
     {
       name: 'Apr',
       data: generateData(20, {
-        min: -30,
-        max: 55
+        min: 0,
+        max: 100
       })
     },
     {
       name: 'May',
       data: generateData(20, {
-        min: -30,
-        max: 55
+        min: 0,
+        max: 100
       })
     },
     {
       name: 'Jun',
       data: generateData(20, {
-        min: -30,
-        max: 55
+        min: 0,
+        max: 100
       })
     },
     {
       name: 'Jul',
       data: generateData(20, {
-        min: -30,
-        max: 55
+        min: 0,
+        max: 100
       })
     },
     {
       name: 'Aug',
       data: generateData(20, {
-        min: -30,
-        max: 55
+        min: 0,
+        max: 100
       })
     },
     {
       name: 'Sep',
       data: generateData(20, {
-        min: -30,
-        max: 55
+        min: 0,
+        max: 100
       })
     }
   ],
   title: {
-    text: 'HeatMap Chart with Color Range'
+    text: 'Frecuencia grupal de aportaciones'
   },
 
 }

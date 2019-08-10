@@ -11,10 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 /**Rutas para manejo de archivos */
-Route::get('/file-view', 'FileController@fileView')->name('inicio');
+Route::get('/', 'FileController@fileView')->name('inicio');
 Route::post('/upload-file', 'FileController@uploadFile');
