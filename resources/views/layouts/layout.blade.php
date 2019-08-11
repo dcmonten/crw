@@ -13,7 +13,7 @@
 
     <title>Asistente de Reportes Colaborativos</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="../css/layout.css" rel="stylesheet" type="text/css">
 
@@ -22,7 +22,7 @@
   <body>
 
         <nav class="navbar navbar-expand-lg fixed-top">
-          <div class="container">
+          <div class="container-fluid">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item mb-0">
                 <button class="btn" id="btn-sidebar" type="button">
@@ -31,7 +31,7 @@
               </li>
             </ul>
               <ul class="navbar-nav mr-auto ml-auto">
-                <li class= "nav-item mb-0" id="profesor">Asistente de anális de reportes colaborativos</li>
+                <li class= "nav-item mb-0" id="profesor">Asistente de análisis de reportes colaborativos</li>
               </ul><!-- /.navbar-nav .mr-auto -->
               <ul class="navbar-nav ml-auto d-flex align-items-center justify-content-center">
         		    <li class="nav-item mb-0">@yield('dd_paginas')</li>
@@ -52,27 +52,19 @@
 
           <ul class="nav flex-column">
               <li class="nav-item">
-              <a class="nav-link active" href="{{route('inicio')}}">
-
+              <a class="nav-link" href="{{route('inicio')}}">
               <span data-feather="upload"></span>
-                Subir archivos <span class="sr-only">(current)</span>
+                Subir archivos <span class="sr-only"></span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                <span data-feather="bar-chart-2"></span>
-                Estadísticas por página
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link" href="#charts">
                 <span data-feather="users"></span>
                 Reporte final del grupo
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
-
                   <span data-feather="layers"></span>
                 Historial de Versiones
               </a>
@@ -80,7 +72,7 @@
 
           </ul>
 
-          @yield('groups')
+          @yield('pages')
 
         </div>
       </nav>

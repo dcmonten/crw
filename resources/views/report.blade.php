@@ -1,30 +1,8 @@
 @extends('layouts.layout')
 @section('styles')
-
+    <link href="../css/reporte.css" rel="stylesheet" type="text/css">
 @endsection
 
-@section('groups')
-<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-  <span>Grupos</span>
-
-  <button type="button" class="btn d-flex align-items-center">
-    <span data-feather="plus-circle"></span>
-  </button>
-
-</h6>
-<ul class="nav flex-column mb-2">
-  <li class="nav-item">
-    <a class="nav-link" href="#">
-      <span data-feather="user"></span>
-      1. Amigos por el mundo
-    </a>
-  </li>
-</ul>
-
-
-
-
-@endsection
 
 
 {{--que_funcione_solo_1_elemento_del_arreglo--}}
@@ -105,29 +83,31 @@
    @endphp
 
 
+@section('pages')
+   <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+     <span>Páginas wiki</span>
+
+     <button type="button" class="btn d-flex align-items-center">
+       <span data-feather="plus-circle"></span>
+     </button>
+
+   </h6>
+   <ul class="nav flex-column mb-2">
+      @foreach( $arreglo_de_reportes as $numero => $reporte)
+       <li class="nav-item">
+         <a class="nav-link" id={{'titulo'.$numero}} href="#">
+           <span data-feather="file"></span>
+             {{$reporte[0]}}
+         </a>
+       </li>
+      @endforeach
+   </ul>
+
+@endsection
 @section('content')
 
 <article class='container'>
-  <header class="row justify-content-center align-items-center">
-      @section('dd_paginas')
-    <div class="btn-group col-6">
-      <button type="button" class="btn btn-warning dropdown-toggle d-flex align-items-center justify-content-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-         Seleccionar página <span data-feather="file-text"></span>
-      </button>
-      <div class="dropdown-menu">
-        @foreach( $arreglo_de_reportes as $numero => $reporte)
-          <button type="button" class="dropdown-item" id={{'titulo'.$numero}}>{{$reporte[0]}}</button>
-        @endforeach
-      </div>
-    </div>
-    @endsection
-  </header>
 
-
-  <section id="seleccion_reportes" class="row">
-
-
-  </section>
 
 <section id={{'reporte'.$numero}} class="row">
   @foreach( $arreglo_de_reportes as $numero => $reporte)
@@ -140,20 +120,37 @@
     Versión Final: $reporte[3]
     -->
 
-    <h2 class="col-12 text-left">{{$reporte[0]}}</h2> </span>
+    <h2 class="col-12 text-center">{{$reporte[0]}}</h2> </span>
     <h3 class="col-12">Colaboradores: </h3>
-    <ul class="col-12">
+    <div class="col-12 row">
       @forelse( $reporte[2] as $persona )
 
-        <li class="col-12">{{$persona}}</li>
+        <div class="col-md-3 d-flex flex-wrap justify-content-center">
+         <div class="card mb-4 shadow-sm">
+           <div class="card-body text-center">
+             <p class="card-text">{{$persona}}</p>
+             <p class="card-text">%%%%</p>
+             <small>Añadió ____ palabras y ____ imágenes</small>
+             <small>Eliminó ____ palabras y ____ imágenes</small>
+             <div class="d-flex justify-content-center">
+               <div class="btn-group">
+                 <button class="btn btn-info ml-10 ">
+                   Resaltar aporte
+                 </button>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
 
       @empty
 
-        <li class="col-12">No hay colaboradores</li>
+        <p class="col-12">No hay colaboradores</p>
 
       @endforelse
-    </ul>
+    </div>
 
+    <div class="col-12 row">
     <div class="col-lg-6 text-center">
       <h3>Última edición por</h3>
       <p>{{$reporte[3][0]}}</p>
@@ -162,7 +159,7 @@
       <h3>Fecha</h3>
       <p>{{$reporte[3][2]}}</p>
     </div>
-
+  </div>
     <div class="reportes_finales" id={{'final'.$numero}}>{{$reporte[3][4]}}</div>
 
   </section>
@@ -188,12 +185,18 @@
 @endforeach
 </section>
 
+<div id="charts">
+<hr/>
+</div>
+<section>
+  <h1>Reporte Final del Grupo</h1>
 
-
-<section id="charts">
-  <div id="heatmap"></div>
+  <h2>Valor porcentual a detalle</h2>
   <div id="barchart"></div>
+  <h2>Valor porcentual final</h2>
   <div id="piechart"></div>
+  <h2>Frecuencia de las aportaciones como grupo</h2>
+  <div id="heatmap"></div>
 </section>
 
 </article>

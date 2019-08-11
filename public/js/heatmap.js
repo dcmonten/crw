@@ -34,7 +34,7 @@ var options = {
             from: 34,
             to: 66,
             name: 'medio',
-            color: '#404040'
+            color: '#454545'
           },
           {
             from: 67,

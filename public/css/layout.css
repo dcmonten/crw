@@ -2,7 +2,7 @@ html, body {
     background-color: #fff;
     color: #636b6f;
     font-family: 'Nunito', sans-serif;
-    font-weight: 200;
+    font-weight: 400;
     font-size:16px;
     height: 100vh;
     margin: 0;
@@ -12,9 +12,21 @@ html, body {
   display: none;
 
 }
+.ml-10{
+
+  margin-left: 10px;
+
+}
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
 .full-height {
     height: 100vh;
 }
+
 
 .flex-center {
     align-items: center;
@@ -44,7 +56,7 @@ html, body {
     color: #636b6f;
     padding: 0 25px;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: .1rem;
     text-decoration: none;
     text-transform: uppercase;
