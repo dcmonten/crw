@@ -32,7 +32,10 @@
             </ul>
               <ul class="navbar-nav mr-auto ml-auto">
                 <li class= "nav-item mb-0" id="profesor">Análisis de reportes</li>
-              </ul>
+              </ul><!-- /.navbar-nav .mr-auto -->
+              <ul class="navbar-nav ml-auto d-flex align-items-center justify-content-center">
+        		    <li class="nav-item mb-0">@yield('dd_paginas')</li>
+            </ul><!-- /.navbar-nav .ml-auto -->
 
           </div> <!-- /#navbarSupportedContent -->
         </div><!-- /.container -->
