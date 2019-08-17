@@ -52,35 +52,83 @@
      foreach ($colaboradores as $persona)
      {
        $arreglo_de_aportes=array();
-       $aux=0;
+       $num_palabras_mas=0;
+       $num_palabras_menos=0;
+       $num_img_mas=0;
+       $num_img_menos=0;
        foreach ($aportes as $value)
        {
          if ($persona==$value[0])
          {
-           $arreglo_de_aportes[$value[2]]= strip_tags($value[3]);//fecha: aporte
+            $arreglo_de_aportes[$value[2]]= strip_tags($value[3]);//fecha: aporte
 
-           $out=array();
+            $out_mas_palabras=array();
+            $out_menos_palabras=array();
+            $out_mas_tag = array();
+            $out_menos_tag = array();
 
-            if (preg_match_all("/\[\+\](?! style:)(.*)/", strip_tags($value[3]), $out))
+            //Condicional para obtener [+] y buscar img
+            if (preg_match_all("/\[\+\]([^\[]*)*/", $value[3], $out_mas_tag))
             {
-              foreach ($out[1] as $aporte_sin_estilos)
+              foreach ($out_mas_tag[0] as $aporte_tag)
               {
-
-                  $aux=$aux+str_word_count($aporte_sin_estilos);
-                  $aux=$aux+substr_count($aporte_sin_estilos, "¿");
-                  //$aux=$aux+substr_count($aporte_sin_estilos, '?');
-
-
+                $out_img = array();
+                if (preg_match_all("/<img[^>]* src=\"([^\"]*)\"[^>]*>/", $aporte_tag, $out_img)){
+                  foreach ($out_img[0] as $img_tag){
+                    //@dump($img_tag); -> Para ver que imprime
+                    $num_img_mas=$num_img_mas+1;
+                  }
+                }                
               }
-            }
+            };
 
+            //Condicional para obtener [-] y buscar img
+            if (preg_match_all("/\[\-\]([^\[]*)*/", $value[3], $out_menos_tag))
+            {
+              foreach ($out_menos_tag[0] as $aporte_tag)
+              {
+                $out_img = array();
+                if (preg_match_all("/<img[^>]* src=\"([^\"]*)\"[^>]*>/", $aporte_tag, $out_img)){
+                  foreach ($out_img[0] as $img_tag){
+                    //@dump($img_tag); -> Para ver que imprime
+                    $num_img_menos=$num_img_menos+1;
+                  }
+                }                
+              }
+            };
 
-           //$aux=$aux+preg_match_all("/\[\+\](?! style:)/", strip_tags($value[3]));
-         }
-       $aportes_individuales[$persona]=$arreglo_de_aportes;
+            //Condicional para obtener [+] y contar palabras
+            if (preg_match_all("/\[\+\](?!  style)([^\[]*)*/", strip_tags($value[3]), $out_mas_palabras))
+            {
+              foreach ($out_mas_palabras[0] as $aporte_sin_estilos_mas)
+              {
+                //@dump($aporte_sin_estilos_mas); -> Para ver que imprime
+                //Conteo de palabras anadidas
+                $num_palabras_mas=$num_palabras_mas+str_word_count($aporte_sin_estilos_mas);                
+              }
+            };
+            
+            //Condicional para obtener [-] y contar palabras
+            if (preg_match_all("/\[\-\](?!  style)([^\[]*)*/", strip_tags($value[3]), $out_menos_palabras))
+            {
+              foreach ($out_menos_palabras[0] as $aporte_sin_estilos_menos)
+              { 
+                //@dump($aporte_sin_estilos_menos); -> Para ver que imprime
+                //Conteo de palabras eliminadas
+                $num_palabras_menos=$num_palabras_menos+str_word_count($aporte_sin_estilos_menos);                
+              }
+            };           
+         }         
+        $aportes_individuales[$persona]=$arreglo_de_aportes;
        }
-       $aportes_en_cifras[$persona]=$aux;
-     }
+       $array_conteo_palabras = array(
+         "palabras_mas" => $num_palabras_mas,
+         "palabras_menos" => $num_palabras_menos,
+         "img_mas" => $num_img_mas,
+         "img_menos" => $num_img_menos
+       );
+       $aportes_en_cifras[$persona]=$array_conteo_palabras;
+     }     
 
      /*Este arreglo contendrá estos elementos:
      0 - Título del Reporte
@@ -153,11 +201,17 @@
            <div class="card-body text-center">
              <p class="card-text">{{$persona}}</p>
              <p class="card-text">%%%%</p>
-             <small>Añadió {{$reporte[4][$persona]}} palabras y ____ imágenes</small>
-             <small>Eliminó ____ palabras y ____ imágenes</small>
+             <div style="background: #2d8e2d">
+              <small style="color: white">Añadió {{$reporte[4][$persona]["palabras_mas"]}} palabras y {{$reporte[4][$persona]["img_mas"]}} imágenes</small>
+             </div>
+             <br>
+             <div style="background: #e44242">
+              <small style="color: white">Eliminó {{$reporte[4][$persona]["palabras_menos"]}} palabras y {{$reporte[4][$persona]["img_menos"]}} imágenes</small>
+             </div>
+             <br>
              <div class="d-flex justify-content-center">
                <div class="btn-group">
-                 <button class="btn btn-info ml-10 ">
+                 <button class="btn btn-info ml-12">
                    Resaltar aporte
                  </button>
                </div>
