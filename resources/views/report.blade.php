@@ -3,8 +3,6 @@
     <link href="../css/reporte.css" rel="stylesheet" type="text/css">
 @endsection
 
-
-
 {{--que_funcione_solo_1_elemento_del_arreglo--}}
   @php
   $collection = $colecciones[0]
@@ -49,30 +47,52 @@
 
      //ahora, con los colaboradores únicos, se almacena cada aporte por colaborador
      $aportes_individuales=array();
+     $aportes_en_cifras=array();
 
      foreach ($colaboradores as $persona)
      {
        $arreglo_de_aportes=array();
+       $aux=0;
        foreach ($aportes as $value)
        {
          if ($persona==$value[0])
          {
-           $arreglo_de_aportes[$value[2]]= strip_tags($value[3]);
+           $arreglo_de_aportes[$value[2]]= strip_tags($value[3]);//fecha: aporte
+
+           $out=array();
+
+            if (preg_match_all("/\[\+\](?! style:)(.*)/", strip_tags($value[3]), $out))
+            {
+              foreach ($out[1] as $aporte_sin_estilos)
+              {
+
+                  $aux=$aux+str_word_count($aporte_sin_estilos);
+                  $aux=$aux+substr_count($aporte_sin_estilos, "¿");
+                  //$aux=$aux+substr_count($aporte_sin_estilos, '?');
+
+
+              }
+            }
+
+
+           //$aux=$aux+preg_match_all("/\[\+\](?! style:)/", strip_tags($value[3]));
          }
        $aportes_individuales[$persona]=$arreglo_de_aportes;
        }
+       $aportes_en_cifras[$persona]=$aux;
      }
 
-     /*Este arreglo contendrá 2 elementos
+     /*Este arreglo contendrá estos elementos:
      0 - Título del Reporte
      1 - Aportes individuales ($aportes_individuales)
      2 - Colaboradores
      3 - Versión final del reporte ($version_final)
+     4 - Aportes Individuales, en cifras
      */
      $reporte = array();
 
      //Se agregan los elementos al reporte
-     array_push($reporte, $collection[0][0][0], $aportes_individuales, $colaboradores, $version_final);
+     array_push($reporte, $collection[0][0][0], $aportes_individuales, $colaboradores, $version_final, $aportes_en_cifras);
 
      //Se agrega el reporte a la lista de reportes
      array_push($arreglo_de_reportes, $reporte);
@@ -81,8 +101,10 @@
 
    //Ahora se tiene cada usuario como clave de los aportes, y cada fecha como clave del aporte
    @endphp
+@section('test')
 
 
+@endsection
 @section('pages')
    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
      <span>Páginas wiki</span>
@@ -113,12 +135,13 @@
   @foreach( $arreglo_de_reportes as $numero => $reporte)
   <section id={{'pagina'.$numero}} class="row">
 
-    <!--
+    {{--
     Titulo de la Página: $reporte[0]
     Aportes Individuales: $reporte[1]
     Colaboradores: $reporte[2]
     Versión Final: $reporte[3]
-    -->
+    Aportes individuales en cifras: $reporte[4]
+    --}}
 
     <h2 class="col-12 text-center">{{$reporte[0]}}</h2> </span>
     <h3 class="col-12">Colaboradores: </h3>
@@ -130,7 +153,7 @@
            <div class="card-body text-center">
              <p class="card-text">{{$persona}}</p>
              <p class="card-text">%%%%</p>
-             <small>Añadió ____ palabras y ____ imágenes</small>
+             <small>Añadió {{$reporte[4][$persona]}} palabras y ____ imágenes</small>
              <small>Eliminó ____ palabras y ____ imágenes</small>
              <div class="d-flex justify-content-center">
                <div class="btn-group">
@@ -151,13 +174,19 @@
     </div>
 
     <div class="col-12 row">
-    <div class="col-lg-6 text-center">
+    <div class="col-lg-4 text-center">
       <h3>Última edición por</h3>
       <p>{{$reporte[3][0]}}</p>
     </div>
-    <div class="col-lg-6 text-center">
+    <div class="col-lg-4 text-center">
       <h3>Fecha</h3>
       <p>{{$reporte[3][2]}}</p>
+    </div>
+    <div class="col-lg-4 text-center">
+      <button class="btn">
+          <span data-feather="layers"></span>
+        Mostrar el Historial de Versiones
+      </button>
     </div>
   </div>
     <div class="reportes_finales" id={{'final'.$numero}}>{{$reporte[3][4]}}</div>
@@ -174,7 +203,9 @@
         @foreach( $contribuciones as $fecha=>$contribucion )
 
         <small>{{$fecha}}</small>
+
         <p>{{$contribucion}}</p>
+
 
         @endforeach
 

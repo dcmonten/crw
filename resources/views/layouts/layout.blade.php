@@ -24,11 +24,13 @@
         <nav class="navbar navbar-expand-lg fixed-top">
           <div class="container-fluid">
             <ul class="navbar-nav mr-auto">
+              @if (!Request::is('/'))
               <li class="nav-item mb-0">
                 <button class="btn" id="btn-sidebar" type="button">
                   <span data-feather="menu"></span>
                 </button><!-- /.navbar-toggler -->
               </li>
+              @endif
             </ul>
               <ul class="navbar-nav mr-auto ml-auto">
                 <li class= "nav-item mb-0" id="profesor">Análisis de reportes</li>
@@ -43,33 +45,19 @@
 
   <div class="container-fluid">
     <div class="row">
-
+@if (!Request::is('/'))
       <nav class="col-md-2 bg-light sidebar" id="sidebar">
         <div class="sidebar-sticky">
           <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             Actividades
           </h6>
-
           <ul class="nav flex-column">
               <li class="nav-item">
-              <a class="nav-link" href="{{route('inicio')}}">
-              <span data-feather="upload"></span>
-                Subir archivos <span class="sr-only"></span>
-              </a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link" href="#charts">
                 <span data-feather="users"></span>
-                Reporte final del grupo
+                Ver reporte final del grupo
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                  <span data-feather="layers"></span>
-                Historial de Versiones
-              </a>
-            </li>
-
           </ul>
 
           @yield('pages')
@@ -77,12 +65,24 @@
         </div>
       </nav>
 
+
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 top-p40">
       @yield('content')
       </main>
+
+        @else
+        <main role="main" class="ml-sm-auto col-lg-12 px-4 top-p40">
+        @yield('content')
+        </main>
+        @endif
+
+
     </div>
   </div>
 
+<div>
+  @yield('test')
+</div>
 
   <script
   			  src="https://code.jquery.com/jquery-3.4.1.js"
