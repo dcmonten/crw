@@ -56,6 +56,7 @@
        $num_palabras_menos=0;
        $num_img_mas=0;
        $num_img_menos=0;
+
        foreach ($aportes as $value)
        {
          if ($persona==$value[0])
@@ -78,7 +79,7 @@
                     //@dump($img_tag); -> Para ver que imprime
                     $num_img_mas=$num_img_mas+1;
                   }
-                }                
+                }
               }
             };
 
@@ -93,7 +94,7 @@
                     //@dump($img_tag); -> Para ver que imprime
                     $num_img_menos=$num_img_menos+1;
                   }
-                }                
+                }
               }
             };
 
@@ -104,23 +105,24 @@
               {
                 //@dump($aporte_sin_estilos_mas); -> Para ver que imprime
                 //Conteo de palabras anadidas
-                $num_palabras_mas=$num_palabras_mas+str_word_count($aporte_sin_estilos_mas);                
+                $num_palabras_mas=$num_palabras_mas+str_word_count($aporte_sin_estilos_mas);
               }
             };
-            
+
             //Condicional para obtener [-] y contar palabras
             if (preg_match_all("/\[\-\](?!  style)([^\[]*)*/", strip_tags($value[3]), $out_menos_palabras))
             {
               foreach ($out_menos_palabras[0] as $aporte_sin_estilos_menos)
-              { 
+              {
                 //@dump($aporte_sin_estilos_menos); -> Para ver que imprime
                 //Conteo de palabras eliminadas
-                $num_palabras_menos=$num_palabras_menos+str_word_count($aporte_sin_estilos_menos);                
+                $num_palabras_menos=$num_palabras_menos+str_word_count($aporte_sin_estilos_menos);
               }
-            };           
-         }         
+            };
+         }
         $aportes_individuales[$persona]=$arreglo_de_aportes;
        }
+
        $array_conteo_palabras = array(
          "palabras_mas" => $num_palabras_mas,
          "palabras_menos" => $num_palabras_menos,
@@ -128,7 +130,7 @@
          "img_menos" => $num_img_menos
        );
        $aportes_en_cifras[$persona]=$array_conteo_palabras;
-     }     
+     }
 
      /*Este arreglo contendrá estos elementos:
      0 - Título del Reporte
@@ -148,11 +150,102 @@
    }//end foreach exterior
 
    //Ahora se tiene cada usuario como clave de los aportes, y cada fecha como clave del aporte
+
+
+   /*Aquí se crea un arreglo de mapas los cuales contienen:
+   Clave = Nombre del colaborador
+   Valor = Arreglo de palabras agregadas
+   */
+   array_shift($aportes);
+
+   $mapa_aporte = array();
+
+   foreach($colaboradores as $colaborador){
+     //Arreglo para las palabras agregadas por cada estudiante
+     $arreglo_de_palabras_agregadas = array();
+
+     /*Mapa que contiene:
+     [0] - Nombre del estudiante
+     [1] - Arreglo de palabras agregadas (vacío por ahora)
+     */
+     $mapa_aporte[$colaborador] = $arreglo_de_palabras_agregadas;
+   }
+
+   foreach($aportes as $value){
+     //@dump("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+     $out_menos_palabras = array();
+     $out_mas_palabras = array();
+
+     //@dump($value[0]);
+
+     //@dump('ELIMINADOS');
+     //Condicional para obtener [-] y contar palabras
+     //@dump($value[3]);
+     if (preg_match_all("/\[\-\](?!  style)([^\[]*)*/", strip_tags($value[3]), $out_menos_palabras))
+     {
+       //@dump($out_menos_palabras);
+
+       foreach ($out_menos_palabras[0] as $aporte_sin_estilos_menos)
+       {
+         //Quitar los [-] y los \n
+         $aporte_sin_estilos_menos = str_replace('[-]', '', $aporte_sin_estilos_menos);
+         $aporte_sin_estilos_menos = trim(preg_replace('/\s\s+/', '', $aporte_sin_estilos_menos));
+
+         //@dump($aporte_sin_estilos_menos);
+
+         $lista_palabras_eliminadas = preg_split('/[ \n]/', $aporte_sin_estilos_menos);
+
+         //@dump($aporte_sin_estilos_menos);
+         //@dump($lista_palabras_eliminadas);
+
+         //Eliminar de las listas de todos los colaboradores
+         foreach($mapa_aporte as $colaborador=>$palabras){
+           foreach ($lista_palabras_eliminadas as $palabra_a_eliminar){
+             $key = array_search($palabra_a_eliminar, $palabras);
+             if ($key !== FALSE) {
+               $remove = array($palabra);
+               //@dump($palabras);
+               //@dump($remove[0]);
+               $mapa_aporte[$colaborador] = array_diff($palabras, $remove);
+             }
+           }
+         }
+       }
+     };
+
+     //@dump('AGREGADOS');
+     //Condicional para obtener [+] y contar palabras
+     if (preg_match_all("/\[\+\](?!  style)([^\[]*)*/", strip_tags($value[3]), $out_mas_palabras))
+     {
+       foreach ($out_mas_palabras[0] as $aporte_sin_estilos_mas)
+       {
+         $aporte_sin_estilos_mas = str_replace('[+]', '', $aporte_sin_estilos_mas);
+         $aporte_sin_estilos_mas = trim(preg_replace('/\s\s+/', '', $aporte_sin_estilos_mas));
+
+         $lista_palabras_agregadas = preg_split('/[ \n]/', $aporte_sin_estilos_mas);
+
+         //@dump($aporte_sin_estilos_mas);
+         //@dump($lista_palabras_agregadas);
+
+         //Agregar a la lista
+         foreach($lista_palabras_agregadas as $palabra){
+           array_push($mapa_aporte[$value[0]], $palabra);
+         }
+       }
+     };
+   }
+
+   /*foreach($mapa_aporte as $colaborador=>$palabras){
+     @dump($colaborador);
+     @dump($palabras);
+   }*/
+
    @endphp
+
+
 @section('test')
-
-
 @endsection
+
 @section('pages')
    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
      <span>Páginas wiki</span>
@@ -172,9 +265,27 @@
        </li>
       @endforeach
    </ul>
-
 @endsection
+
 @section('content')
+
+<div>
+  @foreach($aportes as $value)
+
+    {{--
+    Colaborador: $value[0]
+    No. Version: $value[1]
+    Fecha: $value[2]
+    Cambios: $value[3]
+    --}}
+
+    <div>
+
+
+
+    </div>
+  @endforeach
+</div>
 
 <article class='container'>
 
