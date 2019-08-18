@@ -176,37 +176,44 @@
      $out_menos_palabras = array();
      $out_mas_palabras = array();
 
+     //   "/\[\-\](?!  style)([^\[]*)*/"
+
      //@dump($value[0]);
 
      //@dump('ELIMINADOS');
-     //Condicional para obtener [-] y contar palabras
+     //Condicional para obtener [-]
      //@dump($value[3]);
-     if (preg_match_all("/\[\-\](?!  style)([^\[]*)*/", strip_tags($value[3]), $out_menos_palabras))
+     //@dump(strip_tags($value[3]));
+     if ( preg_match_all("/\[\-\](?!  style)([^\[]*)*/", strip_tags($value[3]), $out_menos_palabras) )
      {
-       //@dump($out_menos_palabras);
+       //@dump($out_menos_palabras[0]);
 
+       //@dump($value[0]);
        foreach ($out_menos_palabras[0] as $aporte_sin_estilos_menos)
        {
          //Quitar los [-] y los \n
          $aporte_sin_estilos_menos = str_replace('[-]', '', $aporte_sin_estilos_menos);
          $aporte_sin_estilos_menos = trim(preg_replace('/\s\s+/', '', $aporte_sin_estilos_menos));
 
-         //@dump($aporte_sin_estilos_menos);
-
-         $lista_palabras_eliminadas = preg_split('/[ \n]/', $aporte_sin_estilos_menos);
 
          //@dump($aporte_sin_estilos_menos);
+
+         $lista_palabras_eliminadas = preg_split('/[\n]/', $aporte_sin_estilos_menos);
+
          //@dump($lista_palabras_eliminadas);
 
          //Eliminar de las listas de todos los colaboradores
          foreach($mapa_aporte as $colaborador=>$palabras){
+           //@dump($colaborador);
+           //@dump($palabras);
            foreach ($lista_palabras_eliminadas as $palabra_a_eliminar){
+             //@dump($palabra_a_eliminar);
              $key = array_search($palabra_a_eliminar, $palabras);
-             if ($key !== FALSE) {
-               $remove = array($palabra);
+             if ($key !== false) {
+               //@dump($palabras[$key]);
+               unset($palabras[$key]);
                //@dump($palabras);
-               //@dump($remove[0]);
-               $mapa_aporte[$colaborador] = array_diff($palabras, $remove);
+               $mapa_aporte[$colaborador] = $palabras;
              }
            }
          }
@@ -214,15 +221,16 @@
      };
 
      //@dump('AGREGADOS');
-     //Condicional para obtener [+] y contar palabras
+     //Condicional para obtener [+]
      if (preg_match_all("/\[\+\](?!  style)([^\[]*)*/", strip_tags($value[3]), $out_mas_palabras))
      {
+       //@dump($value[0]);
        foreach ($out_mas_palabras[0] as $aporte_sin_estilos_mas)
        {
          $aporte_sin_estilos_mas = str_replace('[+]', '', $aporte_sin_estilos_mas);
          $aporte_sin_estilos_mas = trim(preg_replace('/\s\s+/', '', $aporte_sin_estilos_mas));
 
-         $lista_palabras_agregadas = preg_split('/[ \n]/', $aporte_sin_estilos_mas);
+         $lista_palabras_agregadas = preg_split('/[\n]/', $aporte_sin_estilos_mas);
 
          //@dump($aporte_sin_estilos_mas);
          //@dump($lista_palabras_agregadas);
@@ -235,10 +243,10 @@
      };
    }
 
-   /*foreach($mapa_aporte as $colaborador=>$palabras){
+   foreach($mapa_aporte as $colaborador=>$palabras){
      @dump($colaborador);
      @dump($palabras);
-   }*/
+   }
 
    @endphp
 
