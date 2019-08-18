@@ -62,15 +62,25 @@ $("[id^=resaltar]").click(function(){
   var seccion_numero = $('#nombre'+numero).closest('section').attr('id')[posicionPagina-1];
 
   var textoPrueba = "Perfil Persona:";
+  var textoPrueba2 = "Estudiantes de la materia de Emprendimiento y ARP que utilizan páginas wiki para trabajos en grupo";
 
   $('div#final'+seccion_numero+'.reportes_finales').children().each(function(){
     if( ~$(this).text().indexOf(textoPrueba)
-
-
+        &&
+        $(this).html().split('<mark data-markjs="true">').length == 1
       ){
-        
       $(this).mark(textoPrueba);
-      console.log($(this));
+      console.log( $(this).html().split('<mark data-markjs="true">').join('').split('</mark>') );
+      return false;
+    }
+  });
+
+  $('div#final'+seccion_numero+'.reportes_finales').children().each(function(){
+    if( ~$(this).text().indexOf(textoPrueba2)
+        &&
+        $(this).html().split('<mark data-markjs="true">').length == 1
+      ){
+      $(this).mark(textoPrueba2);
       return false;
     }
   });
