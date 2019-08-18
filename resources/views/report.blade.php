@@ -61,7 +61,7 @@
        {
          if ($persona==$value[0])
          {
-            $arreglo_de_aportes[$value[2]]= strip_tags($value[3]);//fecha: aporte
+            $arreglo_de_aportes[$value[2]]= $value[3];//fecha: aporte
 
             $out_mas_palabras=array();
             $out_menos_palabras=array();
@@ -325,7 +325,7 @@
              </div>
              <br>
              <div style="background: #e44242">
-              <small style="color: white">Eliminó {{$reporte[4][$persona]["palabras_menos"]}} palabras y {{$reporte[4][$persona]["img_menos"]}} imágenes</small>
+              <small style="color: white">Corrigió {{$reporte[4][$persona]["palabras_menos"]}} palabras y {{$reporte[4][$persona]["img_menos"]}} imágenes</small>
              </div>
              <br>
              <div class="d-flex justify-content-center">
@@ -375,10 +375,37 @@
 
         @foreach( $contribuciones as $fecha=>$contribucion )
 
+        @php
+
+/*
+
+En caso de necesitar eliminar los tags de estilo:
+
+        $contribucion_sin_tags_de_estilo=preg_replace('/style="([^"]*)"/',NULL,$contribucion);
+
+         $contribucion_positiva = preg_split('/\[\+\]/', preg_replace('/\[\+\]/','[+]<h4 class="after">Añadió: </h4>', $contribucion_sin_tags_de_estilo));
+*/
+
+//considerando tags de estilo:
+
+         $contribucion_positiva = preg_split('/\[\+\]/', preg_replace('/\[\+\]/','[+]<h4 class="after">Añadió: </h4>', $contribucion));
+
+          $contribuciones_divididas = array();
+
+          foreach ($contribucion_positiva as $extracto):
+
+                $contrib = array(preg_replace('/\[-\]/', '<h4 class="before">Corrigió: </h4>', $extracto));
+
+                array_push($contribuciones_divididas, ...$contrib);
+
+          endforeach;
+
+        @endphp
+
         <small>{{$fecha}}</small>
-
-        <p>{{$contribucion}}</p>
-
+            @foreach(array_filter($contribuciones_divididas) as $cont)
+              <p class="medium-par">{{$cont}}</p>
+            @endforeach
 
         @endforeach
 
