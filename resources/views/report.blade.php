@@ -298,7 +298,10 @@
 
 <article class='container'>
 
-
+@php
+$map_added = new ArrayObject();
+$map_deleted = new ArrayObject();
+@endphp
 <section id={{'reporte'.$numero}} class="row">
   @foreach( $arreglo_de_reportes as $numero => $reporte)
   <section id={{'pagina'.$numero}} class="row">
@@ -315,6 +318,19 @@
     <h3 class="col-12">Colaboradores: </h3>
     <div class="col-12 row">
       @forelse( $reporte[2] as $key=>$persona )
+
+        @php
+        if (array_key_exists ( $persona , $map_added )){
+
+            $map_added[$persona] = $map_added[$persona]+$reporte[4][$persona]["palabras_mas"];
+
+        }else{
+
+            $map_added[$persona] = $reporte[4][$persona]["palabras_mas"];
+
+        }
+
+        @endphp
 
         <div class="col-md-3 d-flex flex-wrap justify-content-center">
          <div class="card mb-4 shadow-sm">
@@ -419,6 +435,13 @@
 </div>
 <section>
   <h1>Reporte Final del Grupo</h1>
+
+  @foreach ($map_added as $persona => $palabras_agregadas)
+    <h1>{{$persona}}</h1>
+    <div>
+      {{$palabras_agregadas}}
+    </div>
+  @endforeach
 
   <h2>Valor porcentual a detalle</h2>
   <div id="barchart"></div>
