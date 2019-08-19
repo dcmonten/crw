@@ -77,7 +77,7 @@ $("[id^=resaltar]").click(function(){
   var posicionPagina = $('#nombre'+numero).closest('section').attr('id').length;
   var seccion_numero = $('#nombre'+numero).closest('section').attr('id')[posicionPagina-1];
 
-  $('div#final'+seccion_numero+'.reportes_finales').unmark();
+  $('div#final'+seccion_numero+'.reportes_finales').find("*").removeClass("highlight");
 
   //Tomar el tag donde se encuentran los aportes del estudiante
   $('#'+idEstudiante).each(function(){
@@ -90,12 +90,32 @@ $("[id^=resaltar]").click(function(){
 
       //Resaltarla con este análisis
       $('div#final'+seccion_numero+'.reportes_finales').children().each(function(){
-
+        //console.log($(this));
+        if( $(this).is("div") ){
+          parrafos = $(this).children();
+          //console.log(parrafos);
+          $.each(parrafos, function(i,linea){
+            //console.log(linea.innerText);
+            if( linea.innerText.indexOf(frase) > -1 && frase.length > 0){
+              //console.log(linea);
+              parrafos.addClass("highlight");
+            }
+          });
+        }
+        else{
+          if( $(this).text().indexOf(frase) > -1 && frase.length > 0){
+            console.log(frase);
+            console.log($(this));
+            $(this).addClass("highlight")
+          }
+        }
         //Si la frase se encuentra en el texto, quiere decir que PUEDE ser resaltado
-        if( $(this).text().indexOf(frase) > -1 ){
+        /*if( linea.text().indexOf(frase) > -1 ){
+          console.log(linea);
+
           //console.log($(this));
           //Se separa en las frases que ya estén marcadas
-          var separacion = $(this).html().split('</mark>');
+          /*var separacion = $(this).html().split('</mark>');
 
           //Se va a eliminar las marcadas de la lista, así que se hace una copia para que esta sea la modificada
           var separacion_copia = $(this).html().split('</mark>');
@@ -112,19 +132,19 @@ $("[id^=resaltar]").click(function(){
 
           //console.log(separacion_copia);
 
-          /*Si la palabra que quiere ser resaltada todavía se encuentra en el arreglo copiado,
-          quiere decir que no ha sido resaltada todavía, así que se resalta*/
+          Si la palabra que quiere ser resaltada todavía se encuentra en el arreglo copiado,
+          quiere decir que no ha sido resaltada todavía, así que se resalta
           //console.log(frase);
           //console.log($(this));
           //console.log(separacion_copia);
-          if( $.inArray(frase,separacion_copia) || separacion_copia.indexOf(frase) > -1 ){
+          if(  $.inArray(frase,separacion_copia) || separacion_copia.indexOf(frase) > -1 ){
             //console.log($(this));
             //console.log("--------------------");
             $(this).mark(frase);
             //La siguiente línea es ara que no se resalte más de 1 palabra igual en el documento
             //return false;
           }
-        }
+        }*/
       });
 
 
