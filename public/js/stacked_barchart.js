@@ -63,7 +63,6 @@ function getData(){
             xaxis: {
                 categories: category_list,
             },
-
             tooltip: {
                     y: {
                         formatter: function(val) {
@@ -72,15 +71,16 @@ function getData(){
                 }
             },
             fill: {
-                opacity: 1
-
+                opacity: 1,
             },
 
             legend: {
                 position: 'top',
                 horizontalAlign: 'left',
-                offsetX: 40
-            }
+                offsetX: 40,
+            },
+
+            colors: ['#30AA30', '#60AA60']
         }
 
        var chart = new ApexCharts(

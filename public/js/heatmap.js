@@ -28,19 +28,19 @@ var options = {
             from: 0,
             to: 33,
             name: 'bajo',
-            color: '#8B8B8B'
+            color: '#8BAA8B'
           },
           {
             from: 34,
             to: 66,
             name: 'medio',
-            color: '#454545'
+            color: '#50AA50'
           },
           {
             from: 67,
             to: 100,
             name: 'alto',
-            color: '#000000'
+            color: '#11AA11'
           }
         ]
       }
