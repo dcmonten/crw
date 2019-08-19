@@ -73,42 +73,73 @@ $("[id^=resaltar]").click(function(){
   var numero = $(this).attr('id')[posicion-1];
 
   var nombre = $('#nombre'+numero).text();
+  var idEstudiante = nombre.replace(/ /g,'');
   var posicionPagina = $('#nombre'+numero).closest('section').attr('id').length;
   var seccion_numero = $('#nombre'+numero).closest('section').attr('id')[posicionPagina-1];
 
-  var textoPrueba = "Perfil Persona:";
-  var textoPrueba2 = "Estudiantes de la materia de Emprendimiento y ARP que utilizan páginas wiki para trabajos en grupo";
+  $('div#final'+seccion_numero+'.reportes_finales').unmark();
 
-  $('div#final'+seccion_numero+'.reportes_finales').children().each(function(){
-    //Si la frase se encuentra en el texto, quiere decir que PUEDE ser resaltado
-    if( ~$(this).text().indexOf(textoPrueba) ){
-      //Se separa en las frases que ya estén marcadas
-      var separacion = $(this).html().split('</mark>');
-      //Se va a eliminar las marcadas de la lista, así que se hace una copia para que esta sea la modificada
-      var separacion_copia = $(this).html().split('</mark>');
-      //Se itera la lista de frases marcadas y no marcadas
-      $.each(separacion, function(index,value){
-        //Si se encuentra un elemento que sí está marcado
-        if( value.indexOf('<mark data-markjs="true">') > -1 ){
-          //Se halla su índice en el arreglo copia
-          var indice = separacion_copia.indexOf(value);
-          //Y se lo remueve
-          separacion_copia.splice(indice,1);
+  //Tomar el tag donde se encuentran los aportes del estudiante
+  $('#'+idEstudiante).each(function(){
+    //Iterar sobre cada uno de sus divs
+    $(this).children().each(function(i,frase_html){
+      //Sacar la frase dentro del div
+      var frase = $.trim(frase_html.innerHTML);
+
+      //console.log(frase);
+
+      //Resaltarla con este análisis
+      $('div#final'+seccion_numero+'.reportes_finales').children().each(function(){
+
+        //Si la frase se encuentra en el texto, quiere decir que PUEDE ser resaltado
+        if( $(this).text().indexOf(frase) > -1 ){
+          //console.log($(this));
+          //Se separa en las frases que ya estén marcadas
+          var separacion = $(this).html().split('</mark>');
+
+          //Se va a eliminar las marcadas de la lista, así que se hace una copia para que esta sea la modificada
+          var separacion_copia = $(this).html().split('</mark>');
+          //Se itera la lista de frases marcadas y no marcadas
+          $.each(separacion, function(index,value){
+            //Si se encuentra un elemento que sí está marcado
+            if( value.indexOf('<mark data-markjs="true">') > -1 ){
+              //Se halla su índice en el arreglo copia
+              var indice = separacion_copia.indexOf(value);
+              //Y se lo remueve
+              separacion_copia.splice(indice,1);
+            }
+          });
+
+          //console.log(separacion_copia);
+
+          /*Si la palabra que quiere ser resaltada todavía se encuentra en el arreglo copiado,
+          quiere decir que no ha sido resaltada todavía, así que se resalta*/
+          //console.log(frase);
+          //console.log($(this));
+          //console.log(separacion_copia);
+          if( $.inArray(frase,separacion_copia) || separacion_copia.indexOf(frase) > -1 ){
+            //console.log($(this));
+            //console.log("--------------------");
+            $(this).mark(frase);
+            //La siguiente línea es ara que no se resalte más de 1 palabra igual en el documento
+            //return false;
+          }
         }
       });
 
-      //console.log(separacion_copia);
 
-      /*Si la palabra que quiere ser resaltada todavía se encuentra en el arreglo copiado,
-      quiere decir que no ha sido resaltada todavía, así que se resalta*/
-      if( separacion_copia.indexOf(textoPrueba) > -1 ){
-        $(this).mark(textoPrueba);
-        return false;
-      }
-    }
+    });
   });
 
-  /*$('div#final'+seccion_numero+'.reportes_finales').children().each(function(){
+
+  /*
+  $.each(array, function(i,texto){
+
+  });
+
+
+
+  $('div#final'+seccion_numero+'.reportes_finales').children().each(function(){
     if( ~$(this).text().indexOf(textoPrueba2)
         &&
         $(this).html().split('<mark data-markjs="true">').length == 1
