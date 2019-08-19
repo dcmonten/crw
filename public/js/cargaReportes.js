@@ -53,7 +53,7 @@ $(document).ready(function() {
   $("[id^=pagina]").each(function() {
     var i = $(this).attr('id').length;
     var num = $(this).attr('id')[i-1];
-    console.log(num);
+    //console.log(num);
     if($(this).attr('id') == 'pagina0'){
       $(this).show();
       $("#aporte"+num).show();
@@ -63,4 +63,41 @@ $(document).ready(function() {
       $("#aporte"+num).hide();
     }
   });
+});
+
+
+//Función para el resaltado de los aportes
+$("[id^=resaltar]").click(function(){
+  var titulo = $(this).attr('id');
+  var posicion = $(this).attr('id').length;
+  var numero = $(this).attr('id')[posicion-1];
+
+  var nombre = $('#nombre'+numero).text();
+  var posicionPagina = $('#nombre'+numero).closest('section').attr('id').length;
+  var seccion_numero = $('#nombre'+numero).closest('section').attr('id')[posicionPagina-1];
+
+  var textoPrueba = "Perfil Persona:";
+  var textoPrueba2 = "Estudiantes de la materia de Emprendimiento y ARP que utilizan páginas wiki para trabajos en grupo";
+
+  $('div#final'+seccion_numero+'.reportes_finales').children().each(function(){
+    if( ~$(this).text().indexOf(textoPrueba)
+        &&
+        $(this).html().split('<mark data-markjs="true">').length == 1
+      ){
+      $(this).mark(textoPrueba);
+      console.log( $(this).html().split('<mark data-markjs="true">').join('').split('</mark>') );
+      return false;
+    }
+  });
+
+  $('div#final'+seccion_numero+'.reportes_finales').children().each(function(){
+    if( ~$(this).text().indexOf(textoPrueba2)
+        &&
+        $(this).html().split('<mark data-markjs="true">').length == 1
+      ){
+      $(this).mark(textoPrueba2);
+      return false;
+    }
+  });
+
 });

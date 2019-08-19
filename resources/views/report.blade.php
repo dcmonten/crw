@@ -243,10 +243,11 @@
      };
    }
 
-   foreach($mapa_aporte as $colaborador=>$palabras){
+   //Para revisar que cada estudiante tenga correctamente su lista de palabras agregadas
+   /*foreach($mapa_aporte as $colaborador=>$palabras){
      @dump($colaborador);
      @dump($palabras);
-   }
+   }*/
 
    @endphp
 
@@ -313,24 +314,24 @@
     <h2 class="col-12 text-center">{{$reporte[0]}}</h2> </span>
     <h3 class="col-12">Colaboradores: </h3>
     <div class="col-12 row">
-      @forelse( $reporte[2] as $persona )
+      @forelse( $reporte[2] as $key=>$persona )
 
         <div class="col-md-3 d-flex flex-wrap justify-content-center">
          <div class="card mb-4 shadow-sm">
-           <div class="card-body text-center">
-             <p class="card-text">{{$persona}}</p>
+           <div id={{'cuadroDeAporte'.$key}} class="card-body text-center">
+             <p id={{'nombre'.$key}} class="card-text">{{$persona}}</p>
              <p class="card-text">%%%%</p>
              <div style="background: #2d8e2d">
-              <small style="color: white">Añadió {{$reporte[4][$persona]["palabras_mas"]}} palabras y {{$reporte[4][$persona]["img_mas"]}} imágenes</small>
+              <small id={{'anadio'.$key}} style="color: white">Añadió {{$reporte[4][$persona]["palabras_mas"]}} palabras y {{$reporte[4][$persona]["img_mas"]}} imágenes</small>
              </div>
              <br>
              <div style="background: #e44242">
-              <small style="color: white">Corrigió {{$reporte[4][$persona]["palabras_menos"]}} palabras y {{$reporte[4][$persona]["img_menos"]}} imágenes</small>
+              <small id={{'elimino'.$key}} style="color: white">Corrigió {{$reporte[4][$persona]["palabras_menos"]}} palabras y {{$reporte[4][$persona]["img_menos"]}} imágenes</small>
              </div>
              <br>
              <div class="d-flex justify-content-center">
                <div class="btn-group">
-                 <button class="btn btn-info ml-12">
+                 <button id={{'resaltar'.$key}} class="btn btn-info ml-12">
                    Resaltar aporte
                  </button>
                </div>
@@ -362,6 +363,10 @@
       </button>
     </div>
   </div>
+
+  {{--
+    Este div de acá abajo es donde se encuentra la versión final de la página wiki
+  --}}
     <div class="reportes_finales" id={{'final'.$numero}}>{{$reporte[3][4]}}</div>
 
   </section>
@@ -428,6 +433,7 @@
 
 @endsection
 @section('scripts')
+<script src="../js/jquery.mark.min.js" type="text/javascript"></script>
 <script src="../js/cargaReportes.js" type="text/javascript"></script>
 <script src="../js/heatmap.js" type="text/javascript"></script>
 <script src="../js/stacked_barchart.js" type="text/javascript"></script>
