@@ -377,24 +377,16 @@
 
         @php
 
-/*
-
-En caso de necesitar eliminar los tags de estilo:
-
         $contribucion_sin_tags_de_estilo=preg_replace('/style="([^"]*)"/',NULL,$contribucion);
 
-         $contribucion_positiva = preg_split('/\[\+\]/', preg_replace('/\[\+\]/','[+]<h4 class="after">Añadió: </h4>', $contribucion_sin_tags_de_estilo));
-*/
+         $contribucion_positiva = preg_split('/\[\+\]/', preg_replace('/\[\+\]/','[+]<div class="col-6-lg"><h4 class="after">Contenido añadido: </h4>', $contribucion_sin_tags_de_estilo));
 
-//considerando tags de estilo:
-
-         $contribucion_positiva = preg_split('/\[\+\]/', preg_replace('/\[\+\]/','[+]<h4 class="after">Añadió: </h4>', $contribucion));
 
           $contribuciones_divididas = array();
 
           foreach ($contribucion_positiva as $extracto):
 
-                $contrib = array(preg_replace('/\[-\]/', '<h4 class="before">Corrigió: </h4>', $extracto));
+                $contrib = array(preg_replace('/\[-\]/', '</div><hr/><h4 class="before">Contenido corregido o eliminado: </h4>', $extracto));
 
                 array_push($contribuciones_divididas, ...$contrib);
 
@@ -402,11 +394,13 @@ En caso de necesitar eliminar los tags de estilo:
 
         @endphp
 
-        <small>{{$fecha}}</small>
+        <div class="row">
+            <small class="col-lg-12">{{$fecha}}</small>
             @foreach(array_filter($contribuciones_divididas) as $cont)
-              <p class="medium-par">{{$cont}}</p>
+            <div class="col-lg-4 card medium-par toHTML">{{$cont}}</div>
             @endforeach
 
+        </div>
         @endforeach
 
       @endforeach

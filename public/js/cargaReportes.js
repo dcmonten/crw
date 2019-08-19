@@ -6,6 +6,21 @@ $("[id^=final]").each(function() {
   $(this).append(texto);
 });
 
+//Script para que se muestren los tags correctamente
+
+$(".toHTML").each(function() {
+  var area = document.createElement('textarea');
+  var texto = $(this).text();
+  $(this).empty();
+  $(this).append(texto);
+});
+
+
+
+
+
+
+
 /*Para las siguientes funciones:
 pagina0, pagina1, pagina2, ... abarca el contenido de la página en su versión final
 aporte0, aporte1, aporte2 ... abarca la sección que contiene los aportes individuales
