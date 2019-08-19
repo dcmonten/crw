@@ -89,7 +89,7 @@ $("[id^=resaltar]").click(function(){
       //console.log(frase);
 
       //Resaltarla con este análisis
-      $('div#final'+seccion_numero+'.reportes_finales').children().each(function(){
+      $('div#final'+seccion_numero+'.reportes_finales').find("*").each(function(){
         //console.log($(this));
         if( $(this).is("div") ){
           parrafos = $(this).children();
