@@ -278,20 +278,17 @@
 
 @section('content')
 
-<div>
-  @foreach($aportes as $value)
-
-    {{--
-    Colaborador: $value[0]
-    No. Version: $value[1]
-    Fecha: $value[2]
-    Cambios: $value[3]
-    --}}
-
-    <div>
-
-
-
+<div style="display: none;" id="aportaciones_de_palabras">
+  @foreach($mapa_aporte as $estudiante => $arreglo_palabras)
+    @php
+    $nombre_sin_espacios = str_replace(' ', '', $estudiante);
+    @endphp
+    <div id={{$nombre_sin_espacios}} class="estudiante_palabras">
+      @foreach($arreglo_palabras as $key => $palabra)
+      <div id={{$nombre_sin_espacios.$key}}>
+        {{$palabra}}
+      </div>
+      @endforeach
     </div>
   @endforeach
 </div>
