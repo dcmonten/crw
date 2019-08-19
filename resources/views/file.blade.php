@@ -5,7 +5,7 @@
       <div class="big-title text-center m-b-md">
           Asistente de Lectura de Reportes Colaborativos
       </div>
-      <ol class="text-center">
+      <ol class="text-center f-16">
         <li>Descargue los reportes colaborativos de un solo grupo desde <a href="https://www.sidweb.espol.edu.ec"> SIDWeb </a></li>
         <li>Subalos desde el cuadro de subida de archivos que está debajo de estas instrucciones</li>
       </ol>
@@ -25,6 +25,11 @@
 
                         </div>
 
+                    @endif
+                    @if (session('status'))
+                        <div class="alert alert-warning">
+                            {{ session('status') }}
+                        </div>
                     @endif
 
                     @if (count($errors) > 0)

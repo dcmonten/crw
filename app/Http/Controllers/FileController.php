@@ -26,7 +26,7 @@ class FileController extends Controller
 
         if (empty($files)){
 
-          return redirect()->route('inicio');
+          return redirect()->route('inicio')->with('status', 'No se han seleccionado archivos');
 
         }
 
