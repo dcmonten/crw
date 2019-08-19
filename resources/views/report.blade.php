@@ -278,7 +278,7 @@
 
 @section('content')
 
-<div style="display: none;" id="aportaciones_de_palabras">
+<div class="d-none" id="aportaciones_de_palabras">
   @foreach($mapa_aporte as $estudiante => $arreglo_palabras)
     @php
     $nombre_sin_espacios = str_replace(' ', '', $estudiante);

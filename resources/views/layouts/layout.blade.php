@@ -20,17 +20,16 @@
     @yield ('styles')
   </head>
   <body>
+    @if (!Request::is('/'))
 
         <nav class="navbar navbar-expand-lg fixed-top">
           <div class="container-fluid">
             <ul class="navbar-nav mr-auto">
-              @if (!Request::is('/'))
               <li class="nav-item mb-0">
                 <button class="btn" id="btn-sidebar" type="button">
                   <span data-feather="menu"></span>
                 </button><!-- /.navbar-toggler -->
               </li>
-              @endif
             </ul>
               <ul class="navbar-nav mr-auto ml-auto">
                 <li class= "nav-item mb-0" id="profesor">Análisis de reportes</li>
@@ -42,6 +41,7 @@
           </div> <!-- /#navbarSupportedContent -->
         </div><!-- /.container -->
       </nav><!-- /.navbar-laravel -->
+      @endif
 
   <div class="container-fluid">
     <div class="row">

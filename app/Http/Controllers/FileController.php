@@ -24,11 +24,23 @@ class FileController extends Controller
 
         $arrayFiles = array();
 
-        foreach($files as $file){
-            $collection = Excel::toCollection(new ReporteImport, $file);
-            array_push($arrayFiles, $collection);
+        if (empty($arrayFiles)){
+
+          return redirect()->route('inicio');
+
         }
 
-        return view('report', ['colecciones' => $arrayFiles]);
+        else {
+
+
+          foreach($files as $file){
+              $collection = Excel::toCollection(new ReporteImport, $file);
+              array_push($arrayFiles, $collection);
+          }
+
+          return view('report', ['colecciones' => $arrayFiles]);
+
+
+        }
     }
 }
