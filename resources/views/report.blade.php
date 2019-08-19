@@ -301,6 +301,7 @@
 @php
 $map_added = new ArrayObject();
 $map_deleted = new ArrayObject();
+$map_ids = new ArrayObject();
 @endphp
 <section id={{'reporte'.$numero}} class="row">
   @foreach( $arreglo_de_reportes as $numero => $reporte)
@@ -323,11 +324,12 @@ $map_deleted = new ArrayObject();
         if (array_key_exists ( $persona , $map_added )){
 
             $map_added[$persona] = $map_added[$persona]+$reporte[4][$persona]["palabras_mas"];
+            $map_deleted[$persona] = $map_deleted[$persona]+$reporte[4][$persona]["palabras_menos"];
 
         }else{
-
+            $map_ids[$persona] = $key;
             $map_added[$persona] = $reporte[4][$persona]["palabras_mas"];
-
+            $map_deleted[$persona] = $reporte[4][$persona]["palabras_menos"];
         }
 
         @endphp
@@ -435,14 +437,21 @@ $map_deleted = new ArrayObject();
 </div>
 <section>
   <h1>Reporte Final del Grupo</h1>
-
+<div class="d-none final_maps">
   @foreach ($map_added as $persona => $palabras_agregadas)
-    <h1>{{$persona}}</h1>
-    <div>
-      {{$palabras_agregadas}}
+  <div class="map" id={{'estudiante'.$map_ids[$persona]}}>
+    <h4 id={{'nom'.$map_ids[$persona]}}>{{$persona}}</h4>
+    <div class="added">
+      <h5>agregado</h5>
+      <p id={{'pal_mas'.$map_ids[$persona]}}>{{$palabras_agregadas}}</p>
     </div>
+    <div class="deleted">
+      <h5>eliminado</h5>
+      <p id={{'pal_menos'.$map_ids[$persona]}}>{{$map_deleted[$persona]}}</p>
+    </div>
+  </div>
   @endforeach
-
+</div>
   <h2>Valor porcentual a detalle</h2>
   <div id="barchart"></div>
   <h2>Valor porcentual final</h2>

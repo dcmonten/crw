@@ -1,3 +1,37 @@
+function getData(){
+
+  var map= [];
+  var added = [];
+  var deleted = [];
+  var mad =[];
+
+  $('[id^=estudiante').each(function(index){
+
+    estudiante=new Object();
+    estudiante.nombre=String($('[id^=nom]',this).text());
+    estudiante.pal_ag=parseInt($('[id^=pal_mas]',this).text());
+    estudiante.pal_menos=parseInt($('[id^=pal_menos]',this).text());
+
+    map.push(estudiante.nombre);
+    added.push(estudiante.pal_ag);
+    deleted.push(estudiante.pal_menos);
+
+
+    });
+
+  mad.push(map,added,deleted);
+
+
+  return mad;
+
+}
+
+
+        var data=getData();
+
+        var category_list = data[0];
+        var added_list = data[1];
+        var deleted_list = data[2];
 
         var options = {
             chart: {
@@ -10,47 +44,38 @@
                 bar: {
                     horizontal: true,
                 },
-                
+
             },
             stroke: {
                 width: 1,
                 colors: ['#fff']
             },
             series: [{
-                name: 'Marine Sprite',
-                data: [44, 55, 41, 37, 22, 43, 21]
+                name: 'Palabras añadidas',
+                data: added_list
             },{
-                name: 'Striking Calf',
-                data: [53, 32, 33, 52, 13, 43, 32]
-            },{
-                name: 'Tank Picture',
-                data: [12, 17, 11, 9, 15, 11, 20]
-            },{
-                name: 'Bucket Slope',
-                data: [9, 7, 5, 8, 6, 9, 4]
-            },{
-                name: 'Reborn Kid',
-                data: [25, 12, 19, 32, 25, 24, 10]
+                name: 'Palabras corregidas',
+                data: deleted_list
             }],
             title: {
-                text: '100% Stacked Bar'
+                text: 'Valores porcentuales'
             },
             xaxis: {
-                categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
+                categories: category_list,
             },
-          
+
             tooltip: {
                     y: {
                         formatter: function(val) {
-                        return val + "K"
+                        return val + " palabras"
                     }
                 }
             },
             fill: {
                 opacity: 1
-                
+
             },
-            
+
             legend: {
                 position: 'top',
                 horizontalAlign: 'left',
@@ -62,5 +87,5 @@
             document.querySelector("#barchart"),
             options
         );
-        
+
         chart.render();
