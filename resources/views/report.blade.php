@@ -19,6 +19,7 @@
    @php
    /*Este arreglo contendrá todos los reportes*/
    $arreglo_de_reportes = array();
+   $mapa_aporte = array();
 
    //Foreach que se encargará de guardar todo en su lugar correcto
    foreach ($colecciones as $clave => $collection) {
@@ -147,107 +148,107 @@
      //Se agrega el reporte a la lista de reportes
      array_push($arreglo_de_reportes, $reporte);
 
-   }//end foreach exterior
-
-   //Ahora se tiene cada usuario como clave de los aportes, y cada fecha como clave del aporte
-
-
-   /*Aquí se crea un arreglo de mapas los cuales contienen:
-   Clave = Nombre del colaborador
-   Valor = Arreglo de palabras agregadas
-   */
-   array_shift($aportes);
-
-   $mapa_aporte = array();
-
-   foreach($colaboradores as $colaborador){
-     //Arreglo para las palabras agregadas por cada estudiante
-     $arreglo_de_palabras_agregadas = array();
-
-     /*Mapa que contiene:
-     [0] - Nombre del estudiante
-     [1] - Arreglo de palabras agregadas (vacío por ahora)
+     /*Aquí se crea un arreglo de mapas los cuales contienen:
+     Clave = Nombre del colaborador
+     Valor = Arreglo de palabras agregadas
      */
-     $mapa_aporte[$colaborador] = $arreglo_de_palabras_agregadas;
-   }
+     array_shift($aportes);
 
-   foreach($aportes as $value){
-     //@dump("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-     $out_menos_palabras = array();
-     $out_mas_palabras = array();
+     foreach($colaboradores as $colaborador){
+       //Arreglo para las palabras agregadas por cada estudiante
+       $arreglo_de_palabras_agregadas = array();
 
-     //   "/\[\-\](?!  style)([^\[]*)*/"
+       /*Mapa que contiene:
+       [0] - Nombre del estudiante
+       [1] - Arreglo de palabras agregadas (vacío por ahora)
+       */
+       $mapa_aporte[$clave][$colaborador] = $arreglo_de_palabras_agregadas;
+     }
 
-     //@dump($value[0]);
+     foreach($aportes as $value){
+       //@dump("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+       $out_menos_palabras = array();
+       $out_mas_palabras = array();
 
-     //@dump('ELIMINADOS');
-     //Condicional para obtener [-]
-     //@dump($value[3]);
-     //@dump(strip_tags($value[3]));
-     if ( preg_match_all("/\[\-\](?!  style)([^\[]*)*/", strip_tags($value[3]), $out_menos_palabras) )
-     {
-       //@dump($out_menos_palabras[0]);
+       //   "/\[\-\](?!  style)([^\[]*)*/"
 
        //@dump($value[0]);
-       foreach ($out_menos_palabras[0] as $aporte_sin_estilos_menos)
+
+       //@dump('ELIMINADOS');
+       //Condicional para obtener [-]
+       //@dump($value[3]);
+       //@dump(strip_tags($value[3]));
+       if ( preg_match_all("/\[\-\](?!  style)([^\[]*)*/", strip_tags($value[3]), $out_menos_palabras) )
        {
-         //Quitar los [-] y los \n
-         $aporte_sin_estilos_menos = str_replace('[-]', '', $aporte_sin_estilos_menos);
-         $aporte_sin_estilos_menos = trim(preg_replace('/\s\s+/', '', $aporte_sin_estilos_menos));
+         //@dump($out_menos_palabras[0]);
+
+         //@dump($value[0]);
+         foreach ($out_menos_palabras[0] as $aporte_sin_estilos_menos)
+         {
+           //Quitar los [-] y los \n
+           $aporte_sin_estilos_menos = str_replace('[-]', '', $aporte_sin_estilos_menos);
+           $aporte_sin_estilos_menos = trim(preg_replace('/\s\s+/', '', $aporte_sin_estilos_menos));
 
 
-         //@dump($aporte_sin_estilos_menos);
+           //@dump($aporte_sin_estilos_menos);
 
-         $lista_palabras_eliminadas = preg_split('/[\n]/', $aporte_sin_estilos_menos);
+           $lista_palabras_eliminadas = preg_split('/[\n]/', $aporte_sin_estilos_menos);
 
-         //@dump($lista_palabras_eliminadas);
+           //@dump($lista_palabras_eliminadas);
 
-         //Eliminar de las listas de todos los colaboradores
-         foreach($mapa_aporte as $colaborador=>$palabras){
-           //@dump($colaborador);
-           //@dump($palabras);
-           foreach ($lista_palabras_eliminadas as $palabra_a_eliminar){
-             //@dump($palabra_a_eliminar);
-             $key = array_search($palabra_a_eliminar, $palabras);
-             if ($key !== false) {
-               //@dump($palabras[$key]);
-               unset($palabras[$key]);
-               //@dump($palabras);
-               $mapa_aporte[$colaborador] = $palabras;
+           //Eliminar de las listas de todos los colaboradores
+           foreach($mapa_aporte[$clave] as $colaborador=>$palabras){
+             //@dump($colaborador);
+             //@dump($palabras);
+             foreach ($lista_palabras_eliminadas as $palabra_a_eliminar){
+               //@dump($palabra_a_eliminar);
+               $key = array_search($palabra_a_eliminar, $palabras);
+               if ($key !== false) {
+                 //@dump($palabras[$key]);
+                 unset($palabras[$key]);
+                 //@dump($palabras);
+                 $mapa_aporte[$clave][$colaborador] = $palabras;
+               }
              }
            }
          }
-       }
-     };
+       };
 
-     //@dump('AGREGADOS');
-     //Condicional para obtener [+]
-     if (preg_match_all("/\[\+\](?!  style)([^\[]*)*/", strip_tags($value[3]), $out_mas_palabras))
-     {
-       //@dump($value[0]);
-       foreach ($out_mas_palabras[0] as $aporte_sin_estilos_mas)
+       //@dump('AGREGADOS');
+       //Condicional para obtener [+]
+       if (preg_match_all("/\[\+\](?!  style)([^\[]*)*/", strip_tags($value[3]), $out_mas_palabras))
        {
-         $aporte_sin_estilos_mas = str_replace('[+]', '', $aporte_sin_estilos_mas);
-         $aporte_sin_estilos_mas = trim(preg_replace('/\s\s+/', '', $aporte_sin_estilos_mas));
+         //@dump($value[0]);
+         foreach ($out_mas_palabras[0] as $aporte_sin_estilos_mas)
+         {
+           $aporte_sin_estilos_mas = str_replace('[+]', '', $aporte_sin_estilos_mas);
+           $aporte_sin_estilos_mas = trim(preg_replace('/\s\s+/', '', $aporte_sin_estilos_mas));
 
-         $lista_palabras_agregadas = preg_split('/[\n]/', $aporte_sin_estilos_mas);
+           $lista_palabras_agregadas = preg_split('/[\n]/', $aporte_sin_estilos_mas);
 
-         //@dump($aporte_sin_estilos_mas);
-         //@dump($lista_palabras_agregadas);
+           //@dump($aporte_sin_estilos_mas);
+           //@dump($lista_palabras_agregadas);
 
-         //Agregar a la lista
-         foreach($lista_palabras_agregadas as $palabra){
-           array_push($mapa_aporte[$value[0]], $palabra);
+           //Agregar a la lista
+           foreach($lista_palabras_agregadas as $palabra){
+             array_push($mapa_aporte[$clave][$value[0]], $palabra);
+           }
          }
-       }
-     };
-   }
+       };
+     }
 
-   //Para revisar que cada estudiante tenga correctamente su lista de palabras agregadas
-   /*foreach($mapa_aporte as $colaborador=>$palabras){
-     @dump($colaborador);
-     @dump($palabras);
-   }*/
+     //Para revisar que cada estudiante tenga correctamente su lista de palabras agregadas
+     /*foreach($mapa_aporte[$clave] as $colaborador=>$palabras){
+       @dump($colaborador);
+       @dump($palabras);
+     }*/
+
+
+
+
+   }//end foreach exterior
+
+   //Ahora se tiene cada usuario como clave de los aportes, y cada fecha como clave del aporte
 
    @endphp
 
@@ -278,18 +279,22 @@
 
 @section('content')
 
-<div class="d-none" id="aportaciones_de_palabras">
-  @foreach($mapa_aporte as $estudiante => $arreglo_palabras)
-    @php
-    $nombre_sin_espacios = str_replace(' ', '', $estudiante);
-    @endphp
-    <div id={{$nombre_sin_espacios}} class="estudiante_palabras">
-      @foreach($arreglo_palabras as $key => $palabra)
-      <div id={{$nombre_sin_espacios.$key}}>
-        {{$palabra}}
+<div class="" id="aportaciones_de_palabras">
+  @foreach($colecciones as $clave => $collection)
+  <div id={{'aportaciones_del_reporte_'.$clave}}>
+    @foreach($mapa_aporte[$clave] as $estudiante => $arreglo_palabras)
+      @php
+      $nombre_sin_espacios = str_replace(' ', '', $estudiante);
+      @endphp
+      <div id={{$nombre_sin_espacios."_".$clave}} class="estudiante_palabras">
+        @foreach($arreglo_palabras as $key => $palabra)
+        <div id={{$nombre_sin_espacios."_".$clave."_".$key}}>
+          {{$palabra}}
+        </div>
+        @endforeach
       </div>
-      @endforeach
-    </div>
+    @endforeach
+  </div>
   @endforeach
 </div>
 
@@ -334,7 +339,7 @@ $map_ids = new ArrayObject();
         <div class="col-md-3 d-flex flex-wrap justify-content-center">
          <div class="card mb-4 shadow-sm">
            <div id={{'cuadroDeAporte'.$key}} class="card-body text-center">
-             <p id={{'nombre'.$key}} class="card-text">{{$persona}}</p>
+             <p id={{'nombre_'.$numero.'_'.$key}} class="card-text">{{$persona}}</p>
              <p class="card-text">%%%%</p>
              <div style="background: #2d8e2d">
               <small id={{'anadio'.$key}} style="color: white">Añadió {{$reporte[4][$persona]["palabras_mas"]}} palabras y {{$reporte[4][$persona]["img_mas"]}} imágenes</small>
@@ -346,7 +351,7 @@ $map_ids = new ArrayObject();
              <br>
              <div class="d-flex justify-content-center">
                <div class="btn-group">
-                 <button id={{'resaltar'.$key}} class="btn btn-info ml-12">
+                 <button id={{'resaltar_'.$numero.'_'.$key}} class="btn btn-info ml-12">
                    Resaltar aporte
                  </button>
                </div>

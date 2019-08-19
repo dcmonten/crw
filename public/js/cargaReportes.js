@@ -70,17 +70,20 @@ $(document).ready(function() {
 $("[id^=resaltar]").click(function(){
   var titulo = $(this).attr('id');
   var posicion = $(this).attr('id').length;
-  var numero = $(this).attr('id')[posicion-1];
+  var seccion_numero = $(this).attr('id')[posicion-3];
+  var numero_estudiante = $(this).attr('id')[posicion-1];
 
-  var nombre = $('#nombre'+numero).text();
+  var nombre = $('#nombre_'+seccion_numero+"_"+numero_estudiante).text();
+
   var idEstudiante = nombre.replace(/ /g,'');
-  var posicionPagina = $('#nombre'+numero).closest('section').attr('id').length;
-  var seccion_numero = $('#nombre'+numero).closest('section').attr('id')[posicionPagina-1];
 
-  $('div#final'+seccion_numero+'.reportes_finales').find("*").removeClass("highlight");
+  console.log(idEstudiante+"_"+seccion_numero);
+
+  $('div#final'+seccion_numero).find("*").removeClass("highlight");
 
   //Tomar el tag donde se encuentran los aportes del estudiante
-  $('#'+idEstudiante).each(function(){
+  $('#'+idEstudiante+"_"+seccion_numero).each(function(){
+    //console.log($(this));
     //Iterar sobre cada uno de sus divs
     $(this).children().each(function(i,frase_html){
       //Sacar la frase dentro del div
@@ -104,8 +107,8 @@ $("[id^=resaltar]").click(function(){
         }
         else{
           if( $(this).text().indexOf(frase) > -1 && frase.length > 0){
-            console.log(frase);
-            console.log($(this));
+            //console.log(frase);
+            //console.log($(this));
             $(this).addClass("highlight")
           }
         }
