@@ -384,8 +384,7 @@
 
         $contribucion_sin_tags_de_estilo=preg_replace('/style="([^"]*)"/',NULL,$contribucion);
 
-         $contribucion_positiva = preg_split('/\[\+\]/', preg_replace('/\[\+\]/','[+]<div class="col-6-lg"><h4 class="after">Contenido añadido: </h4>', $contribucion_sin_tags_de_estilo));
-
+         $contribucion_positiva = preg_split('/\[\+\]/', preg_replace('/\[\+\]/','[+]<div class="col-6-lg added_content"><h4 class="after">Contenido añadido: </h4>', $contribucion_sin_tags_de_estilo));
 
           $contribuciones_divididas = array();
 
@@ -402,7 +401,7 @@
         <div class="row">
             <small class="col-lg-12">{{$fecha}}</small>
             @foreach(array_filter($contribuciones_divididas) as $cont)
-            <div class="col-lg-4 card medium-par toHTML">{{$cont}}</div>
+            <div class="col-lg-6 card medium-par toHTML">{{$cont}}</div>
             @endforeach
 
         </div>
