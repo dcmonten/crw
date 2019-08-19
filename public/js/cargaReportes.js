@@ -86,12 +86,17 @@ $("[id^=resaltar]").click(function(){
       //Sacar la frase dentro del div
       var frase = $.trim(frase_html.innerHTML);
 
+      //console.log(frase);
+
       //Resaltarla con este análisis
       $('div#final'+seccion_numero+'.reportes_finales').children().each(function(){
+
         //Si la frase se encuentra en el texto, quiere decir que PUEDE ser resaltado
-        if( ~$(this).text().indexOf(frase) ){
+        if( $(this).text().indexOf(frase) > -1 ){
+          //console.log($(this));
           //Se separa en las frases que ya estén marcadas
           var separacion = $(this).html().split('</mark>');
+
           //Se va a eliminar las marcadas de la lista, así que se hace una copia para que esta sea la modificada
           var separacion_copia = $(this).html().split('</mark>');
           //Se itera la lista de frases marcadas y no marcadas
@@ -109,7 +114,12 @@ $("[id^=resaltar]").click(function(){
 
           /*Si la palabra que quiere ser resaltada todavía se encuentra en el arreglo copiado,
           quiere decir que no ha sido resaltada todavía, así que se resalta*/
-          if( $.inArray(frase,separacion_copia) ){
+          //console.log(frase);
+          //console.log($(this));
+          //console.log(separacion_copia);
+          if( $.inArray(frase,separacion_copia) || separacion_copia.indexOf(frase) > -1 ){
+            //console.log($(this));
+            //console.log("--------------------");
             $(this).mark(frase);
             //La siguiente línea es ara que no se resalte más de 1 palabra igual en el documento
             //return false;
