@@ -341,12 +341,12 @@ $map_ids = new ArrayObject();
            <div id={{'cuadroDeAporte'.$key}} class="card-body text-center">
              <p id={{'nombre_'.$numero.'_'.$key}} class="card-text">{{$persona}}</p>
              <p class="card-text">%%%%</p>
-             <div style="background: #2d8e2d">
-              <small id={{'anadio'.$key}} style="color: white">Añadió {{$reporte[4][$persona]["palabras_mas"]}} palabras y {{$reporte[4][$persona]["img_mas"]}} imágenes</small>
+             <div>
+              <small id={{'anadio'.$key}}>Añadió {{$reporte[4][$persona]["palabras_mas"]}} palabras y {{$reporte[4][$persona]["img_mas"]}} imágenes</small>
              </div>
              <br>
-             <div style="background: #e44242">
-              <small id={{'elimino'.$key}} style="color: white">Corrigió {{$reporte[4][$persona]["palabras_menos"]}} palabras y {{$reporte[4][$persona]["img_menos"]}} imágenes</small>
+             <div>
+              <small id={{'elimino'.$key}}>Corrigió {{$reporte[4][$persona]["palabras_menos"]}} palabras y {{$reporte[4][$persona]["img_menos"]}} imágenes</small>
              </div>
              <br>
              <div class="d-flex justify-content-center">
@@ -368,19 +368,13 @@ $map_ids = new ArrayObject();
     </div>
 
     <div class="col-12 row">
-    <div class="col-lg-4 text-center">
+    <div class="col-lg-6 text-center">
       <h3>Última edición por</h3>
       <p>{{$reporte[3][0]}}</p>
     </div>
-    <div class="col-lg-4 text-center">
+    <div class="col-lg-6 text-center">
       <h3>Fecha</h3>
       <p>{{$reporte[3][2]}}</p>
-    </div>
-    <div class="col-lg-4 text-center">
-      <button class="btn">
-          <span data-feather="layers"></span>
-        Mostrar el Historial de Versiones
-      </button>
     </div>
   </div>
 
@@ -454,9 +448,9 @@ $map_ids = new ArrayObject();
   </div>
   @endforeach
 </div>
-  <h2>Valor porcentual a detalle</h2>
+  <h2>Detalle de aportes individuales</h2>
   <div id="barchart"></div>
-  <h2>Valor porcentual final</h2>
+  <h2>Detalle de aportes grupales</h2>
   <div id="piechart"></div>
   <h2>Frecuencia de las aportaciones como grupo</h2>
   <div id="heatmap"></div>

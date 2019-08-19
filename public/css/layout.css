@@ -12,6 +12,9 @@ html, body {
   display: none;
 
 }
+.f-16{
+  font-size: 24px;
+}
 .ml-10{
 
   margin-left: 10px;

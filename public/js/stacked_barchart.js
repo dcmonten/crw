@@ -58,7 +58,7 @@ function getData(){
                 data: deleted_list
             }],
             title: {
-                text: 'Valores porcentuales'
+                text: 'Palabras en porcentajes'
             },
             xaxis: {
                 categories: category_list,
@@ -80,7 +80,7 @@ function getData(){
                 offsetX: 40,
             },
 
-            colors: ['#30AA30', '#60AA60']
+            colors: [ '#25AA25','#88AA88']
         }
 
        var chart = new ApexCharts(

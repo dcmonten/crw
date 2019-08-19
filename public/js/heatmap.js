@@ -17,7 +17,7 @@ function generateData(count, yrange) {
 
 var options = {
   chart: {
-    height: 350,
+    height: 500,
     type: 'heatmap',
   },
   plotOptions: {
@@ -28,19 +28,19 @@ var options = {
             from: 0,
             to: 33,
             name: 'bajo',
-            color: '#8BAA8B'
+            color: '#99AA99'
           },
           {
             from: 34,
             to: 66,
             name: 'medio',
-            color: '#50AA50'
+            color: '#55AA55'
           },
           {
             from: 67,
             to: 100,
             name: 'alto',
-            color: '#11AA11'
+            color: '#00AA00'
           }
         ]
       }
@@ -113,10 +113,7 @@ var options = {
         max: 100
       })
     }
-  ],
-  title: {
-    text: 'Frecuencia grupal de aportaciones'
-  },
+  ]
 
 }
 
