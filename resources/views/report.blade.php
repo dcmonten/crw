@@ -279,7 +279,7 @@
 
 @section('content')
 
-<div class="" id="aportaciones_de_palabras">
+<div class="d-none" id="aportaciones_de_palabras">
   @foreach($colecciones as $clave => $collection)
   <div id={{'aportaciones_del_reporte_'.$clave}}>
     @foreach($mapa_aporte[$clave] as $estudiante => $arreglo_palabras)
@@ -351,7 +351,7 @@ $map_ids = new ArrayObject();
              <br>
              <div class="d-flex justify-content-center">
                <div class="btn-group">
-                 <button id={{'resaltar_'.$numero.'_'.$key}} class="btn btn-info ml-12">
+                 <button id={{'resaltar_'.$numero.'_'.$key}} class="btn btn-success ml-12">
                    Resaltar aporte
                  </button>
                </div>
