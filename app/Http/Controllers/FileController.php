@@ -24,7 +24,7 @@ class FileController extends Controller
 
         $arrayFiles = array();
 
-        if (empty($arrayFiles)){
+        if (empty($files)){
 
           return redirect()->route('inicio');
 
