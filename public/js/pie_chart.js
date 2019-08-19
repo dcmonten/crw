@@ -55,7 +55,7 @@ function getData(){
         fontSize: '24px'
       }
 	  },
-    colors: [ '#55AA55','#5555AA', '#AA5555']
+    colors: [ '#e6261f','#eb7532', '#a3e048','#49da9a','#34bbe6']
 }
 
         var chart = new ApexCharts(
