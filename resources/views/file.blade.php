@@ -12,7 +12,7 @@
         <br></br>
         <div class="row justify-content-center">
             <div class="card">
-                <div class="card-header">Subida de archivo</div>
+                <div class="card-header text-center">Subida de archivo</div>
 
                 <div class="card-body">
                     @if ($message = Session::get('success'))
@@ -50,7 +50,9 @@
                                 <input type="file" accept=".xlsx" class="form-control-file" name="fileToUpload[]" id="exampleInputFile" aria-describedby="fileHelp" multiple>
                                 <small id="fileHelp" class="form-text text-muted">Por favor subir un archivo formato xlsx.</small>
                             </div>
+                            <div class="d-flex flex-wrap justify-content-center align-items-center">
                             <button id="upload-file-btn" type="submit" class="btn btn-success text-center">Enviar</button>
+                            </div>
                         </form>
                 </div>
             </div>
