@@ -36,7 +36,7 @@ function getData(){
         var deleted_list = data[2];
         var adim = data[3];
         var delim = data[4];
-
+        
         var options = {
             chart: {
                 height: 350,

@@ -4,6 +4,9 @@
 @endsection
 
 @php
+
+use MathPHP\Statistics\Descriptive;
+
 $collection = $colecciones[0];
 
 /*Este arreglo contendrá todos los reportes*/
@@ -273,6 +276,8 @@ foreach ($colecciones as $clave => $collection) {
   $map_adim = new ArrayObject();
   $map_delim=new ArrayObject();
   $map_ids = new ArrayObject();
+  $map_dates = new ArrayObject();
+
   @endphp
   <section id={{'reporte'.$numero}} class="row">
     @foreach( $arreglo_de_reportes as $numero => $reporte)
@@ -361,7 +366,6 @@ foreach ($colecciones as $clave => $collection) {
 
         <section id={{'aporte'.$numero}}>
           <div id="aporte_por_estudiante">
-
             @foreach( $reporte[1] as $persona=>$contribuciones )
 
             <h3 class="col-6">{{$persona}}</h3>
@@ -370,6 +374,22 @@ foreach ($colecciones as $clave => $collection) {
 
             @php
 
+            $fechahora=explode(",", $fecha);
+            $fecha_ex=$fechahora[0];
+
+            @endphp
+            {{$fecha_ex}}
+            @php
+            if (array_key_exists ( $fecha_ex , $map_dates ))
+            {
+              $map_dates[$fecha_ex]=$map_dates[$fecha_ex]+1;
+
+            }
+            else
+            {
+              $map_dates[$fecha_ex]=1;
+
+            }
             $contribucion_sin_tags_de_estilo=preg_replace('/style="([^"]*)"/',NULL,$contribucion);
 
             $contribucion_positiva = preg_split('/\[\+\]/', preg_replace('/\[\+\]/','[+]<div class="col-6-lg added_content"><h4 class="after">Contenido añadido: </h4>', $contribucion_sin_tags_de_estilo));
@@ -424,6 +444,25 @@ foreach ($colecciones as $clave => $collection) {
           <h2>Detalle de aportes grupales</h2>
           <div id="piechart"></div>
           <h2>Frecuencia de las aportaciones como grupo</h2>
+@php
+$qts=array();
+@endphp
+          <div class="d-none" id="info">
+            @foreach ($map_dates as $date => $contribs)
+            <p class="date" id={{"date".$date}}>{{$date}}</p>
+            <p class= "qt">
+              {{$contribs}}
+            </p>
+            @php
+            if ($contribs!=null)array_push($qts, $contribs);
+
+            @endphp
+            @endforeach
+            <p id="min_val">{{min(array_values($qts))}}</p>
+            <p id="max_val">{{max(array_values($qts))}}</p>
+            <p id="qts_array">{{json_encode($qts)}}</p>
+          </div>
+
           <div id="heatmap"></div>
         </section>
 
