@@ -270,6 +270,8 @@ foreach ($colecciones as $clave => $collection) {
   @php
   $map_added = new ArrayObject();
   $map_deleted = new ArrayObject();
+  $map_adim = new ArrayObject();
+  $map_delim=new ArrayObject();
   $map_ids = new ArrayObject();
   @endphp
   <section id={{'reporte'.$numero}} class="row">
@@ -294,11 +296,16 @@ foreach ($colecciones as $clave => $collection) {
 
             $map_added[$persona] = $map_added[$persona]+$reporte[4][$persona]["palabras_mas"];
             $map_deleted[$persona] = $map_deleted[$persona]+$reporte[4][$persona]["palabras_menos"];
+            $map_adim[$persona] = $map_adim[$persona]+$reporte[4][$persona]["img_mas"];
+            $map_delim[$persona] = $map_delim[$persona]+$reporte[4][$persona]["img_menos"];
+
 
           }else{
             $map_ids[$persona] = $key;
             $map_added[$persona] = $reporte[4][$persona]["palabras_mas"];
             $map_deleted[$persona] = $reporte[4][$persona]["palabras_menos"];
+            $map_adim[$persona] = $reporte[4][$persona]["img_mas"];
+            $map_delim[$persona] = $reporte[4][$persona]["img_menos"];
           }
 
           @endphp
@@ -404,14 +411,11 @@ foreach ($colecciones as $clave => $collection) {
             @foreach ($map_added as $persona => $palabras_agregadas)
             <div class="map" id={{'estudiante'.$map_ids[$persona]}}>
               <h4 id={{'nom'.$map_ids[$persona]}}>{{$persona}}</h4>
-              <div class="added">
-                <h5>agregado</h5>
                 <p id={{'pal_mas'.$map_ids[$persona]}}>{{$palabras_agregadas}}</p>
-              </div>
-              <div class="deleted">
-                <h5>eliminado</h5>
                 <p id={{'pal_menos'.$map_ids[$persona]}}>{{$map_deleted[$persona]}}</p>
-              </div>
+                <p id={{'im_mas'.$map_ids[$persona]}}>{{$map_adim[$persona]}}</p>
+                <p id={{'im_menos'.$map_ids[$persona]}}>{{$map_delim[$persona]}}</p>
+
             </div>
             @endforeach
           </div>

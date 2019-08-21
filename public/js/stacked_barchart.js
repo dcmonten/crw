@@ -3,6 +3,8 @@ function getData(){
   var map= [];
   var added = [];
   var deleted = [];
+  var adim=[];
+  var delim = [];
   var mad =[];
 
   $('[id^=estudiante').each(function(index){
@@ -15,11 +17,11 @@ function getData(){
     map.push(estudiante.nombre);
     added.push(estudiante.pal_ag);
     deleted.push(estudiante.pal_menos);
-
-
+    adim.push(parseInt($('[id^=im_mas]',this).text()));
+    delim.push(parseInt($('[id^=im_menos]',this).text()));
     });
 
-  mad.push(map,added,deleted);
+  mad.push(map,added,deleted, adim, delim);
 
 
   return mad;
@@ -32,6 +34,8 @@ function getData(){
         var category_list = data[0];
         var added_list = data[1];
         var deleted_list = data[2];
+        var adim = data[3];
+        var delim = data[4];
 
         var options = {
             chart: {
@@ -56,9 +60,15 @@ function getData(){
             },{
                 name: 'Palabras corregidas',
                 data: deleted_list
+            },{
+                name: 'Imagenes agregadas',
+                data: adim
+            },{
+                name: 'Imagenes corregidas',
+                data: delim
             }],
             title: {
-                text: 'Palabras en porcentajes'
+                text: 'Contribuciones en porcentajes'
             },
             xaxis: {
                 categories: category_list,
@@ -66,7 +76,7 @@ function getData(){
             tooltip: {
                     y: {
                         formatter: function(val) {
-                        return val + " palabras"
+                        return val
                     }
                 }
             },
@@ -80,7 +90,7 @@ function getData(){
                 offsetX: 40,
             },
 
-            colors: [ '#25AA25','#88AA88']
+            colors: [ '#25AA25','#88AA88','#008888','#005050']
         }
 
        var chart = new ApexCharts(
