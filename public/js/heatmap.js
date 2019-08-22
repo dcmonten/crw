@@ -17,6 +17,7 @@ function generateData(count, yrange) {
 //x es el dia, y es la cantidad
 function series(qts){
 
+  var month_string = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
   var jan=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
   var feb=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
   var mar=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -30,8 +31,23 @@ function series(qts){
   var nov=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
   var dic=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
-  var series = [jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dic];
+  var series = [{name: month_string[0], data: jan},
+                {name: month_string[1], data: feb},
+                {name: month_string[2], data: mar},
+                {name: month_string[3], data: apr},
+                {name: month_string[4], data: may},
+                {name: month_string[5], data: jun},
+                {name: month_string[6], data: jul},
+                {name: month_string[7], data: aug},
+                {name: month_string[8], data: sep},
+                {name: month_string[9], data: oct},
+                {name: month_string[10], data: nov},
+                {name: month_string[11], data: dic}
+];
+//,mar,apr,may,jun,jul,aug,sep,oct,nov,dic
+  var series_real = [];
 
+var months=[];
   $('[id^=date').each(
     function(index)
     {
@@ -39,31 +55,30 @@ function series(qts){
       var dmy = date.split("/");
       var mes= parseInt(dmy[1]);
       var dia = parseInt(dmy[0]);
-      series[mes-1][dia]=qts[index];
+      series[mes-1].data[dia]=qts[index];
+      months.push(mes-1);
     }
   );
-  console.log(series);
-  return series;
+  console.log(months);
+  var uniqueMonths = [];
+  $.each(months, function(i, el){
+    if($.inArray(el, uniqueMonths) === -1) uniqueMonths.push(el);
+  });
+  console.log(uniqueMonths);
+
+  $.each(uniqueMonths, function(i, el){
+    series_real.push(series[el]);
+  });
+
+
+  console.log(series_real);
+
+
+  return series_real;
 }
 
-function objectSeries(series)
-{
-  objser =[];
-  for (i = 0; i<12;i++)
-  {
-    var temp=[];
-    for (j=0;j<31;j++){
-      temp.push({x:j+1,y:series[i][j]});
-    }
-    objser.push(temp);
-  }
-
-  return objser;
-
-}
 
 
-var month_string = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 var quantities=JSON.parse($('#qts_array').text());
 console.log(quantities);
 var min=parseInt($('#min_val').text());
@@ -72,7 +87,7 @@ var max=parseInt($('#max_val').text());
 console.log(max);
 var quantiles= math.quantileSeq(quantities, [1/3, 2/3]);
 
-var months = objectSeries(series(quantities));
+var data = series(quantities);
 
 
 
@@ -98,14 +113,14 @@ var options = {
             color: '#AA9999'
           },
           {
-            from: math.ceil(quantiles[0])+1,
+            from: math.ceil(quantiles[0]),
             to: math.floor(quantiles[1]),
             name: 'Contribuciones Intermedias',
             color: '#55AA55'
           },
           {
-            from: math.ceil(quantiles[1])+1,
-            to: max+1,
+            from: math.ceil(quantiles[1]),
+            to: max,
             name: 'Muchas contribuciones',
             color: '#0000AA'
           }
@@ -121,55 +136,15 @@ var options = {
   }
   },
   colors: ["#008FFB"],
-  series: [{
-      name: month_string[11],
-      data: months[11]
-    },
-    {
-      name: month_string[10],
-      data: months[10]
-    },
-    {
-      name: month_string[9],
-      data: months[9]
-    },
-    {
-      name: month_string[8],
-      data: months[8]
-    },
-    {
-      name: month_string[7],
-      data: months[7]
-    },
-    {
-      name: month_string[6],
-      data: months[6]
-    },
-    {
-      name: month_string[5],
-      data: months[5]
-    },
-    {
-      name: month_string[4],
-      data: months[4]
-    },
-    {
-      name: month_string[3],
-      data: months[3]
-    },
-    {
-      name: month_string[2],
-      data: months[2]
-    },
-    {
-      name: month_string[1],
-      data: months[1]
-    },
-    {
-      name: month_string[0],
-      data: months[0]
-    }
-  ]
+  series: data.reverse(),
+  tooltip: {
+          y: {
+              formatter: function(val) {
+              if(val>1 || val==0)return val + " contribuciones";
+              else return val +" contribución"
+          }
+      }
+  },
 
 }
 

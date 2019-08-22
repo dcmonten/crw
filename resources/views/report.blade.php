@@ -224,9 +224,9 @@ foreach ($colecciones as $clave => $collection) {
 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
   <span>Páginas wiki</span>
 
-  <button type="button" class="btn d-flex align-items-center">
-    <span data-feather="plus-circle"></span>
-  </button>
+  <a class="btn d-flex align-items-center" href="/">
+    <span data-feather="x-circle"></span>
+  </a>
 
 </h6>
 <ul class="nav flex-column mb-2">
@@ -422,11 +422,11 @@ foreach ($colecciones as $clave => $collection) {
           @endforeach
         </section>
 
-        <div id="charts">
+        <div class="dis-60" id="charts">
           <hr/>
         </div>
         <section>
-          <h1>Reporte Final del Grupo</h1>
+          <h1 class="text-center">Reporte Final del Grupo</h1>
           <div class="d-none final_maps">
             @foreach ($map_added as $persona => $palabras_agregadas)
             <div class="map" id={{'estudiante'.$map_ids[$persona]}}>
@@ -439,11 +439,18 @@ foreach ($colecciones as $clave => $collection) {
             </div>
             @endforeach
           </div>
-          <h2>Detalle de aportes individuales</h2>
-          <div id="barchart"></div>
-          <h2>Detalle de aportes grupales</h2>
-          <div id="piechart"></div>
-          <h2>Frecuencia de las aportaciones como grupo</h2>
+          <div class="dis-60">
+            <h2 class="text-center">Detalle de aportes individuales</h2>
+            <div class="dis-60" id="barchart"></div>
+          </div>
+          <div class="dis-60">
+            <h2 class="text-center">Detalle de aportes grupales</h2>
+            <div class="dis-60" id="piechart"></div>
+          </div>
+          <div class="dis-60">
+            <h2 class="text-center">Frecuencia de las contribuciones como grupo</h2>
+            <p>La frecuencia de contribuciones indica la cantidad de "guardados" de contenido que se hicieron en una fecha determinada.</p>
+          </div>
 @php
 $qts=array();
 @endphp
@@ -463,7 +470,7 @@ $qts=array();
             <p id="qts_array">{{json_encode($qts)}}</p>
           </div>
 
-          <div id="heatmap"></div>
+          <div class="dis-60" id="heatmap"></div>
         </section>
 
       </article>
