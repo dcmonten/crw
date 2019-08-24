@@ -83,7 +83,7 @@ $("[id^=resaltar]").click(function(){
 
   //Tomar el tag donde se encuentran los aportes del estudiante
   $('#'+idEstudiante+"_"+seccion_numero).each(function(){
-    console.log($(this));
+    //console.log($(this));
     //Iterar sobre cada uno de sus divs
     $(this).children().each(function(i,frase_html){
       //Sacar la frase dentro del div
@@ -96,12 +96,16 @@ $("[id^=resaltar]").click(function(){
         //console.log($(this));
         if( $(this).is("div") ){
           parrafos = $(this).children();
-          console.log(parrafos);
+          //console.log(parrafos);
           $.each(parrafos, function(i,linea){
             //console.log(linea.innerText);
             if( linea.innerText.indexOf(frase) > -1 && frase.length > 0){
+              console.log("FRASE");
               console.log(linea);
+              console.log("--------------------------------------");
+              console.log("PÁRRAFOSSSS");
               console.log(parrafos);
+              console.log("--------------------------------------");
               parrafos.toggleClass("highlight");
             }
           });
