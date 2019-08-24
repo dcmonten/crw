@@ -243,7 +243,7 @@ foreach($mapa_aporte[$clave] as $colaborador=>$palabras){
 <ul class="nav flex-column mb-2">
   @foreach( $arreglo_de_reportes as $numero => $reporte)
   <li class="nav-item">
-    <a class="nav-link" id={{'titulo'.$numero}} href="#">
+    <a class="nav-link pag-link" id={{'titulo'.$numero}} href="#">
       <span data-feather="file"></span>
       {{$reporte[0]}}
     </a>
@@ -279,7 +279,7 @@ foreach($mapa_aporte[$clave] as $colaborador=>$palabras){
   @endforeach
 </div>
 
-<article class='container'>
+<article class='container dis-60' id="pag-container">
 
   @php
   $map_added = new ArrayObject();
@@ -403,8 +403,12 @@ foreach($mapa_aporte[$clave] as $colaborador=>$palabras){
 
         </section>
 
+
         <section id={{'aporte'.$numero}}>
-          <div id="aporte_por_estudiante">
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#aporte_por_estudiante" aria-expanded="false" aria-controls="#aporte_por_estudiante">
+              Mostrar aportes en cuadricula
+          </button>
+          <div id="aporte_por_estudiante" class="collape">
             <div class="btn-group">
             <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Miembro del grupo
@@ -412,23 +416,27 @@ foreach($mapa_aporte[$clave] as $colaborador=>$palabras){
 
             <div class="dropdown-menu">
               @foreach( array_keys($reporte[1]) as $persona)
-              <a class="dropdown-item" href={{"#contribucion".str_replace(' ', '', $persona)}}>{{$persona}}</a>
+              <a class="dropdown-item" href={{"#contribucion".str_replace(' ', '', $persona).str_replace(' ', '', $reporte[0])}}>{{$persona}}</a>
               @endforeach
             </div>
 
           </div>
           @foreach( $reporte[1] as $persona=>$contribuciones )
-          <div class="dis-60" id={{"contribucion".str_replace(' ', '', $persona)}}>
+          <div class="dis-60" id={{"contribucion".str_replace(' ', '', $persona).str_replace(' ', '', $reporte[0])}}>
+            <hr/>
+          </div>
+          <div class="dis-60">
             <h3 class="col-6">{{$persona}}</h3>
             @php
             //array_push();
             array_keys($contribuciones);
             @endphp
+
+            <ul class="timeline">
             @foreach(array_keys($contribuciones) as $fecha)
-            {{
-              $fecha
-            }}
+              <li><a class= "col-6" href={{"#".str_replace(' ', '', $fecha)}}>{{$fecha}}</a></li>
             @endforeach
+            </ul>
             @foreach( $contribuciones as $fecha=>$contribucion )
 
             @php
@@ -462,7 +470,9 @@ foreach($mapa_aporte[$clave] as $colaborador=>$palabras){
               endforeach;
 
               @endphp
-
+              <div id={{str_replace(' ', '', $fecha)}}>
+              <hr/>
+              </div>
               <div class="row dis-60">
                 <h3 class="col-lg-12">Fecha de publicación: {{$fecha}}</h3>
                 @foreach(array_filter($contribuciones_divididas) as $key=>$cont)
@@ -479,58 +489,59 @@ foreach($mapa_aporte[$clave] as $colaborador=>$palabras){
           @endforeach
         </section>
 
-        <div class="dis-60" id="charts">
-          <hr/>
-        </div>
-        <section>
-          <h1 class="text-center">Reporte Final del Grupo</h1>
-          <div class="d-none final_maps">
-            @foreach ($map_added as $persona => $palabras_agregadas)
-            <div class="map" id={{'estudiante'.$map_ids[$persona]}}>
-              <h4 id={{'nom'.$map_ids[$persona]}}>{{$persona}}</h4>
-                <p id={{'pal_mas'.$map_ids[$persona]}}>{{$palabras_agregadas}}</p>
-                <p id={{'pal_menos'.$map_ids[$persona]}}>{{$map_deleted[$persona]}}</p>
-                <p id={{'im_mas'.$map_ids[$persona]}}>{{$map_adim[$persona]}}</p>
-                <p id={{'im_menos'.$map_ids[$persona]}}>{{$map_delim[$persona]}}</p>
+      </article>
+      <div class="dis-60" id="charts">
+        <hr/>
+      </div>
 
-            </div>
-            @endforeach
+      <section>
+        <h1 class="text-center">Reporte Final del Grupo</h1>
+        <div class="d-none final_maps">
+          @foreach ($map_added as $persona => $palabras_agregadas)
+          <div class="map" id={{'estudiante'.$map_ids[$persona]}}>
+            <h4 id={{'nom'.$map_ids[$persona]}}>{{$persona}}</h4>
+              <p id={{'pal_mas'.$map_ids[$persona]}}>{{$palabras_agregadas}}</p>
+              <p id={{'pal_menos'.$map_ids[$persona]}}>{{$map_deleted[$persona]}}</p>
+              <p id={{'im_mas'.$map_ids[$persona]}}>{{$map_adim[$persona]}}</p>
+              <p id={{'im_menos'.$map_ids[$persona]}}>{{$map_delim[$persona]}}</p>
+
           </div>
-          <div class="dis-60">
-            <h2 class="text-center">Detalle de aportes individuales</h2>
-            <div class="dis-60" id="barchart"></div>
-          </div>
-          <div class="dis-60">
-            <h2 class="text-center">Detalle de aportes grupales</h2>
-            <div class="dis-60" id="piechart"></div>
-          </div>
-          <div class="dis-60">
-            <h2 class="text-center">Frecuencia de las contribuciones como grupo</h2>
-            <p>La frecuencia de contribuciones indica la cantidad de "guardados" de contenido que se hicieron en una fecha determinada.</p>
-          </div>
+          @endforeach
+        </div>
+        <div class="dis-60">
+          <h2 class="text-center">Detalle de aportes individuales</h2>
+          <div class="dis-60" id="barchart"></div>
+        </div>
+        <div class="dis-60">
+          <h2 class="text-center">Detalle de aportes grupales</h2>
+          <div class="dis-60" id="piechart"></div>
+        </div>
+        <div class="dis-60">
+          <h2 class="text-center">Frecuencia de las contribuciones como grupo</h2>
+          <p>La frecuencia de contribuciones indica la cantidad de "guardados" de contenido que se hicieron en una fecha determinada.</p>
+        </div>
 @php
 $qts=array();
 @endphp
-          <div class="d-none" id="info">
-            @foreach ($map_dates as $date => $contribs)
-            <p class="date" id={{"date".$date}}>{{$date}}</p>
-            <p class= "qt">
-              {{$contribs}}
-            </p>
-            @php
-            if ($contribs!=null)array_push($qts, $contribs);
+        <div class="d-none" id="info">
+          @foreach ($map_dates as $date => $contribs)
+          <p class="date" id={{"date".$date}}>{{$date}}</p>
+          <p class= "qt">
+            {{$contribs}}
+          </p>
+          @php
+          if ($contribs!=null)array_push($qts, $contribs);
 
-            @endphp
-            @endforeach
-            <p id="min_val">{{min(array_values($qts))}}</p>
-            <p id="max_val">{{max(array_values($qts))}}</p>
-            <p id="qts_array">{{json_encode($qts)}}</p>
-          </div>
+          @endphp
+          @endforeach
+          <p id="min_val">{{min(array_values($qts))}}</p>
+          <p id="max_val">{{max(array_values($qts))}}</p>
+          <p id="qts_array">{{json_encode($qts)}}</p>
+        </div>
 
-          <div class="dis-60" id="heatmap"></div>
-        </section>
+        <div class="dis-60" id="heatmap"></div>
+      </section>
 
-      </article>
 
       @endsection
 

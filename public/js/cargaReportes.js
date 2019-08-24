@@ -18,9 +18,6 @@ $(".toHTML").each(function() {
 
 
 
-
-
-
 /*Para las siguientes funciones:
 pagina0, pagina1, pagina2, ... abarca el contenido de la página en su versión final
 aporte0, aporte1, aporte2 ... abarca la sección que contiene los aportes individuales

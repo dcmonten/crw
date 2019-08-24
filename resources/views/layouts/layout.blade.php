@@ -52,10 +52,7 @@
           </h6>
           <ul class="nav flex-column">
               <li class="nav-item">
-              <a class="nav-link" href="#charts">
-                <span data-feather="users"></span>
-                Ver reporte final del grupo
-              </a>
+              <a class="nav-link btn" id="ver-reporte" href="#charts"><span data-feather="users"></span>Ver reporte final del grupo</a>
             </li>
           </ul>
 
