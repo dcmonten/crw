@@ -204,8 +204,8 @@ foreach ($colecciones as $clave => $collection) {
         //@dump($lista_palabras_agregadas);
 
         //Agregar a la lista
-        foreach($lista_palabras_agregadas as $palabra){
-          array_push($mapa_aporte[$clave][$value[0]], $palabra);
+        foreach(array_filter($lista_palabras_agregadas) as $palabra){
+          if (!empty($palabra) && !empty($mapa_aporte[$clave][$value[0]])) array_push($mapa_aporte[$clave][$value[0]], $palabra);
         }
       }
     };
@@ -277,6 +277,7 @@ foreach ($colecciones as $clave => $collection) {
   $map_delim=new ArrayObject();
   $map_ids = new ArrayObject();
   $map_dates = new ArrayObject();
+  $map_dates_per_people = new ArrayObject();
 
   @endphp
   <section id={{'reporte'.$numero}} class="row">
@@ -366,10 +367,30 @@ foreach ($colecciones as $clave => $collection) {
 
         <section id={{'aporte'.$numero}}>
           <div id="aporte_por_estudiante">
-            @foreach( $reporte[1] as $persona=>$contribuciones )
+            <div class="btn-group">
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Miembro del grupo
+            </button>
 
+            <div class="dropdown-menu">
+              @foreach( array_keys($reporte[1]) as $persona)
+              <a class="dropdown-item" href={{"#contribucion".str_replace(' ', '', $persona)}}>{{$persona}}</a>
+              @endforeach
+            </div>
+
+          </div>
+          @foreach( $reporte[1] as $persona=>$contribuciones )
+          <div class="dis-60" id={{"contribucion".str_replace(' ', '', $persona)}}>
             <h3 class="col-6">{{$persona}}</h3>
-
+            @php
+            //array_push();
+            array_keys($contribuciones);
+            @endphp
+            @foreach(array_keys($contribuciones) as $fecha)
+            {{
+              $fecha
+            }}
+            @endforeach
             @foreach( $contribuciones as $fecha=>$contribucion )
 
             @php
@@ -377,9 +398,6 @@ foreach ($colecciones as $clave => $collection) {
             $fechahora=explode(",", $fecha);
             $fecha_ex=$fechahora[0];
 
-            @endphp
-            {{$fecha_ex}}
-            @php
             if (array_key_exists ( $fecha_ex , $map_dates ))
             {
               $map_dates[$fecha_ex]=$map_dates[$fecha_ex]+1;
@@ -390,6 +408,7 @@ foreach ($colecciones as $clave => $collection) {
               $map_dates[$fecha_ex]=1;
 
             }
+
             $contribucion_sin_tags_de_estilo=preg_replace('/style="([^"]*)"/',NULL,$contribucion);
 
             $contribucion_positiva = preg_split('/\[\+\]/', preg_replace('/\[\+\]/','[+]<div class="col-6-lg added_content"><h4 class="after">Contenido añadido: </h4>', $contribucion_sin_tags_de_estilo));
@@ -406,15 +425,15 @@ foreach ($colecciones as $clave => $collection) {
 
               @endphp
 
-              <div class="row">
-                <small class="col-lg-12">{{$fecha}}</small>
-                @foreach(array_filter($contribuciones_divididas) as $cont)
+              <div class="row dis-60">
+                <h3 class="col-lg-12">Fecha de publicación: {{$fecha}}</h3>
+                @foreach(array_filter($contribuciones_divididas) as $key=>$cont)
                 <div class="col-lg-6 card medium-par toHTML">{{$cont}}</div>
                 @endforeach
 
               </div>
               @endforeach
-
+            </div>
               @endforeach
 
             </div>
