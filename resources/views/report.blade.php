@@ -291,13 +291,22 @@ foreach ($colecciones as $clave => $collection) {
         Versión Final: $reporte[3]
         Aportes individuales en cifras: $reporte[4]
         --}}
-
+        @php
+        $temp_palabras_agregadas = 0;
+        $temp_palabras_eliminadas = 0;
+        $temp_imagenes_agregadas = 0;
+        $temp_imagenes_eliminadas = 0;
+        @endphp
         <h2 class="col-12 text-center">{{$reporte[0]}}</h2> </span>
         <h3 class="col-12">Colaboradores: </h3>
-        <div class="col-12 row">
           @forelse( $reporte[2] as $key=>$persona )
 
           @php
+          $temp_palabras_agregadas = $temp_palabras_agregadas + $reporte[4][$persona]["palabras_mas"];
+          $temp_palabras_eliminadas = $temp_palabras_eliminadas + $reporte[4][$persona]["palabras_menos"];
+          $temp_imagenes_agregadas = $temp_imagenes_agregadas + $reporte[4][$persona]["img_mas"];
+          $temp_imagenes_eliminadas = $temp_imagenes_eliminadas + $reporte[4][$persona]["img_menos"];
+
           if (array_key_exists ( $persona , $map_added )){
 
             $map_added[$persona] = $map_added[$persona]+$reporte[4][$persona]["palabras_mas"];
@@ -315,12 +324,26 @@ foreach ($colecciones as $clave => $collection) {
           }
 
           @endphp
+          @empty
+          @endforelse
+          @php
+          $total_grupal= $temp_palabras_agregadas + $temp_palabras_eliminadas + $temp_imagenes_agregadas + $temp_imagenes_eliminadas
+          @endphp
+        <div class="col-12 row  d-flex flex-wrap justify-content-center align-items-between">
+          @forelse( $reporte[2] as $key=>$persona )
+          @php
+          $temp_added= $reporte[4][$persona]["palabras_mas"] + $reporte[4][$persona]["img_mas"];
+          $temp_del= $reporte[4][$persona]["palabras_menos"] + $reporte[4][$persona]["img_menos"];
+          $total_pe=$temp_added+$temp_del;
+          $porc_pe=$total_pe/$total_grupal;
+          @endphp
+
 
           <div class="col-md-3 d-flex flex-wrap justify-content-center">
-            <div class="card mb-4 shadow-sm">
-              <div id={{'cuadroDeAporte'.$key}} class="card-body text-center">
+            <div class="card mb-4 shadow-sm d-flex flex-wrap justify-content-center">
+              <div id={{'cuadroDeAporte'.$key}} class="card-body text-center d-flex flex-wrap justify-content-center">
                 <p id={{'nombre_'.$numero.'_'.$key}} class="card-text">{{$persona}}</p>
-                <p class="card-text">%%%%</p>
+                <p class="porcentajes"> {{round($porc_pe*100,2,PHP_ROUND_HALF_ODD)}} %</p>
                 <div>
                   <small id={{'anadio'.$key}}>Añadió {{$reporte[4][$persona]["palabras_mas"]}} palabras y {{$reporte[4][$persona]["img_mas"]}} imágenes</small>
                 </div>
@@ -341,10 +364,14 @@ foreach ($colecciones as $clave => $collection) {
           </div>
 
           @empty
-
-          <p class="col-12">No hay colaboradores</p>
-
+          <p class="col-12">No hay contribuciones en esta página</p>
           @endforelse
+          <div class="col-12">
+            <p id="p-a">Palabras añadidas (total): {{$temp_palabras_agregadas}}</p>
+            <p id="p-e">Palabras corregidas o eliminadas(total): {{$temp_palabras_eliminadas}}</p>
+            <p id="i-a">Imagenes añadidas (total): {{$temp_imagenes_agregadas}}</p>
+            <p id="i-e">Imagenes corregidas o eliminadas (total): {{$temp_imagenes_eliminadas}}</p>
+          </div>
         </div>
 
         <div class="col-12 row">
