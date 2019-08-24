@@ -5,7 +5,6 @@
 
 @php
 
-use MathPHP\Statistics\Descriptive;
 
 $collection = $colecciones[0];
 
