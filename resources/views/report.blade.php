@@ -204,7 +204,7 @@ foreach ($colecciones as $clave => $collection) {
 
         //Agregar a la lista
         foreach($lista_palabras_agregadas as $palabra){
-          if( !empty($palabra)){
+          if( !empty($palabra) ){
             array_push($mapa_aporte[$clave][$value[0]], $palabra);
           }
         }

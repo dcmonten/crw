@@ -96,7 +96,7 @@ $("[id^=resaltar]").click(function(){
         //console.log($(this));
         if( $(this).is("div") ){
           parrafos = $(this).children();
-          //console.log(parrafos);
+          console.log(parrafos);
           $.each(parrafos, function(i,linea){
             //console.log(linea.innerText);
             if( linea.innerText.indexOf(frase) > -1 && frase.length > 0){
