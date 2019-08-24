@@ -77,30 +77,31 @@ $("[id^=resaltar]").click(function(){
 
   var idEstudiante = nombre.replace(/ /g,'');
 
-  console.log(idEstudiante+"_"+seccion_numero);
+  //console.log(idEstudiante+"_"+seccion_numero);
 
 //  $('div#final'+seccion_numero).find("*").toggleClass("highlight");
 
   //Tomar el tag donde se encuentran los aportes del estudiante
   $('#'+idEstudiante+"_"+seccion_numero).each(function(){
-    //console.log($(this));
+    console.log($(this));
     //Iterar sobre cada uno de sus divs
     $(this).children().each(function(i,frase_html){
       //Sacar la frase dentro del div
       var frase = $.trim(frase_html.innerHTML);
 
-      //console.log(frase);
+      console.log(frase);
 
       //Resaltarla con este análisis
       $('div#final'+seccion_numero+'.reportes_finales').find("*").each(function(){
         //console.log($(this));
         if( $(this).is("div") ){
           parrafos = $(this).children();
-          //console.log(parrafos);
+          console.log(parrafos);
           $.each(parrafos, function(i,linea){
             //console.log(linea.innerText);
             if( linea.innerText.indexOf(frase) > -1 && frase.length > 0){
-              //console.log(linea);
+              console.log(linea);
+              console.log(parrafos);
               parrafos.toggleClass("highlight");
             }
           });

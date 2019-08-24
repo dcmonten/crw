@@ -204,16 +204,24 @@ foreach ($colecciones as $clave => $collection) {
         //@dump($lista_palabras_agregadas);
 
         //Agregar a la lista
-        foreach(array_filter($lista_palabras_agregadas) as $palabra){
-          if (!empty($palabra) && !empty($mapa_aporte[$clave][$value[0]])) array_push($mapa_aporte[$clave][$value[0]], $palabra);
-        }
+        foreach($lista_palabras_agregadas as $palabra){
+         array_push($mapa_aporte[$clave][$value[0]], $palabra);
+       }
       }
-    };
+    }
   }
 
 
 }//end foreach exterior
 
+/*
+Para revisar el contenido de la lista oculta
+
+foreach($mapa_aporte[$clave] as $colaborador=>$palabras){
+ @dump($colaborador);
+ @dump($palabras);
+}
+*/
 //Ahora se tiene cada usuario como clave de los aportes, y cada fecha como clave del aporte
 
 @endphp
