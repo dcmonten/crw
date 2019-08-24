@@ -77,49 +77,29 @@ $("[id^=resaltar]").click(function(){
 
   var idEstudiante = nombre.replace(/ /g,'');
 
-  //console.log(idEstudiante+"_"+seccion_numero);
-
-//  $('div#final'+seccion_numero).find("*").toggleClass("highlight");
-
   //Tomar el tag donde se encuentran los aportes del estudiante
   $('#'+idEstudiante+"_"+seccion_numero).each(function(){
-    //console.log($(this));
     //Iterar sobre cada uno de sus divs
     $(this).children().each(function(i,frase_html){
       //Sacar la frase dentro del div
       var frase = $.trim(frase_html.innerHTML);
 
-      console.log(frase);
-
       //Resaltarla con este análisis
       $('div#final'+seccion_numero+'.reportes_finales').find("*").each(function(){
-        //console.log($(this));
-        if( $(this).is("div") ){
+        if( $(this).children().length > 0 ){
           parrafos = $(this).children();
-          console.log(parrafos);
-          $.each(parrafos, function(i,linea){
-            //console.log(linea.innerText);
-            if( linea.innerText.indexOf(frase) > -1 && frase.length > 0){
-              console.log("FRASE");
-              console.log(linea);
-              console.log("--------------------------------------");
-              console.log("PÁRRAFOSSSS");
-              console.log(parrafos);
-              console.log("--------------------------------------");
-              parrafos.toggleClass("highlight");
+          $(this).children().each(function(){
+            if( ($(this).innerHTML == frase || $(this).innerText == frase.innerText) && frase.length > 0 ){
+              $(this).toggleClass('highlight');
             }
           });
         }
         else{
-          if( $(this).text().indexOf(frase) > -1 && frase.length > 0){
-            $(this).toggleClass("highlight")
+          if( $(this).html() == frase && frase.length > 0 ){
+            $(this).toggleClass("highlight");
           }
         }
       });
-
-
     });
   });
-
-
 });
