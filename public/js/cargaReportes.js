@@ -92,17 +92,26 @@ $("[id^=resaltar]").click(function(){
       $('div#final'+seccion_numero+'.reportes_finales').find("*").each(function(){
         //console.log($(this));
           //console.log($(this).children());
-          $(this).find("*").each(function(){
-            //console.log($(this).text());
+          if($(this).children().length > 0){
+            $(this).find("*").each(function(){
+              //console.log($(this).text());
+              //console.log("---------------------------------");
+              if( $(this).text() === frase || $(this).html() === frase ){
+                //console.log($(this));
+                $(this).toggleClass('highlight');
+
+              }
+            });
+          }
+          else{
+            //console.log($(this));
             //console.log("---------------------------------");
-            if( $(this).text() === frase ){
+            if( $(this).text() === frase || $(this).html() === frase ){
               //console.log($(this));
               $(this).toggleClass('highlight');
 
             }
-          });
-
-
+          }
       });
     });
   });

@@ -194,8 +194,11 @@ foreach ($colecciones as $clave => $collection) {
       //@dump($value[0]);
       foreach ($out_mas_palabras[0] as $aporte_sin_estilos_mas)
       {
+        //@dump($aporte_sin_estilos_mas);
         $aporte_sin_estilos_mas = str_replace('[+]', '', $aporte_sin_estilos_mas);
-        $aporte_sin_estilos_mas = trim(preg_replace('/\s\s+/', '', $aporte_sin_estilos_mas));
+        //@dump($aporte_sin_estilos_mas);
+        $aporte_sin_estilos_mas = trim(preg_replace('/\s\s+/', PHP_EOL, $aporte_sin_estilos_mas));
+        //@dump($aporte_sin_estilos_mas);
 
         $lista_palabras_agregadas = preg_split('/[\n]/', $aporte_sin_estilos_mas);
 
