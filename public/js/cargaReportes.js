@@ -65,6 +65,11 @@ $(document).ready(function() {
 
 //Función para el resaltado de los aportes
 $("[id^=resaltar]").click(function(){
+  //Para que los botones cambien de color y avisen quién está resaltado
+  $(this).toggleClass("btn-success");
+  $(this).toggleClass("btn-warning");
+
+  //Para sacar los ids correspondientes
   var titulo = $(this).attr('id');
   var posicion = $(this).attr('id').length;
   var seccion_numero = $(this).attr('id')[posicion-3];
@@ -81,21 +86,23 @@ $("[id^=resaltar]").click(function(){
       //Sacar la frase dentro del div
       var frase = $.trim(frase_html.innerHTML);
 
+      //console.log("Frase: "+frase);
+
       //Resaltarla con este análisis
       $('div#final'+seccion_numero+'.reportes_finales').find("*").each(function(){
-        if( $(this).children().length > 0 ){
-          parrafos = $(this).children();
-          $(this).children().each(function(){
-            if( ($(this).innerHTML == frase || $(this).innerText == frase.innerText) && frase.length > 0 ){
+        //console.log($(this));
+          //console.log($(this).children());
+          $(this).find("*").each(function(){
+            //console.log($(this).text());
+            //console.log("---------------------------------");
+            if( $(this).text() === frase ){
+              //console.log($(this));
               $(this).toggleClass('highlight');
+
             }
           });
-        }
-        else{
-          if( $(this).html() == frase && frase.length > 0 ){
-            $(this).toggleClass("highlight");
-          }
-        }
+
+
       });
     });
   });

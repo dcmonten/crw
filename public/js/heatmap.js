@@ -59,19 +59,19 @@ var months=[];
       months.push(mes-1);
     }
   );
-  console.log(months);
+  //console.log(months);
   var uniqueMonths = [];
   $.each(months, function(i, el){
     if($.inArray(el, uniqueMonths) === -1) uniqueMonths.push(el);
   });
-  console.log(uniqueMonths);
+  //console.log(uniqueMonths);
 
   $.each(uniqueMonths, function(i, el){
     series_real.push(series[el]);
   });
 
 
-  console.log(series_real);
+  //console.log(series_real);
 
 
   return series_real;
@@ -80,11 +80,11 @@ var months=[];
 
 
 var quantities=JSON.parse($('#qts_array').text());
-console.log(quantities);
+//console.log(quantities);
 var min=parseInt($('#min_val').text());
-console.log(min);
+//console.log(min);
 var max=parseInt($('#max_val').text());
-console.log(max);
+//console.log(max);
 var quantiles= math.quantileSeq(quantities, [1/3, 2/3]);
 
 var data = series(quantities);
