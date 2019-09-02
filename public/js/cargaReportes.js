@@ -89,29 +89,24 @@ $("[id^=resaltar]").click(function(){
       //console.log("Frase: "+frase);
 
       //Resaltarla con este análisis
-      $('div#final'+seccion_numero+'.reportes_finales').find("*").each(function(){
+      $('div#final'+seccion_numero+'.reportes_finales').find("*").each(function(e,externos){
+
         //console.log($(this));
-          //console.log($(this).children());
-          if($(this).children().length > 0){
-            $(this).find("*").each(function(){
-              //console.log($(this).text());
-              //console.log("---------------------------------");
-              if( $(this).text() === frase || $(this).html() === frase ){
-                //console.log($(this));
-                $(this).toggleClass('highlight');
-
-              }
-            });
+        //console.log($(this).children());
+        $(externos).find("*").each(function(a,internos){
+          //console.log($(this).text());
+          //console.log("---------------------------------");
+          if( $(internos.target).text() === frase || $(internos.target).html() === frase ){
+            //console.log("BBBBB");
+            $(internos.target).toggleClass('highlight');
           }
-          else{
-            //console.log($(this));
-            //console.log("---------------------------------");
-            if( $(this).text() === frase || $(this).html() === frase ){
-              //console.log($(this));
-              $(this).toggleClass('highlight');
-
-            }
-          }
+        });
+        //console.log($(this));
+        //console.log("---------------------------------");
+        if( $(externos).text() === frase || $(externos).html() === frase ){
+          //console.log("CCCCC");
+          $(externos).toggleClass('highlight');
+        }
       });
     });
   });

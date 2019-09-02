@@ -259,7 +259,7 @@ foreach($mapa_aporte[$clave] as $colaborador=>$palabras){
 
 @section('content')
 
-<div class="" id="aportaciones_de_palabras">
+<div class="d-none" id="aportaciones_de_palabras">
   @foreach($colecciones as $clave => $collection)
 
     <div id={{'aportaciones_del_reporte_'.$clave}}>
