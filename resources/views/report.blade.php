@@ -407,7 +407,7 @@ foreach($mapa_aporte[$clave] as $colaborador=>$palabras){
         </section>
 
 
-        <section id={{'aporte'.$numero}}>
+        <section id={{'aporte'.$numero}} class="d-none">
           <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#aporte_por_estudiante" aria-expanded="false" aria-controls="#aporte_por_estudiante">
               Mostrar aportes en cuadricula
           </button>
@@ -497,7 +497,7 @@ foreach($mapa_aporte[$clave] as $colaborador=>$palabras){
         <hr/>
       </div>
 
-      <section>
+      <section class="container">
         <h1 class="text-center">Reporte Final del Grupo</h1>
         <div class="d-none final_maps">
           @foreach ($map_added as $persona => $palabras_agregadas)
@@ -511,17 +511,37 @@ foreach($mapa_aporte[$clave] as $colaborador=>$palabras){
           </div>
           @endforeach
         </div>
+
         <div class="dis-60">
           <h2 class="text-center">Detalle de aportes individuales</h2>
+          <p>Este gráfico indica el tipo de contenido que cada estudiante añadió o corrigió, dentro de todos sus aportes en el grupo.</p>
           <div class="dis-60" id="barchart"></div>
         </div>
         <div class="dis-60">
           <h2 class="text-center">Detalle de aportes grupales</h2>
-          <div class="dis-60" id="piechart"></div>
+          <p>Este gráfico indica el porcentaje de aportes de cada estudiante en el grupo, respecto al tipo de elemento añadido.</p>
+          <div class="row dis-60 justify-content-around" id="piechart-container">
+            <div class="col-md-2 col-sm-12 d-flex flex-column justify-content-around align-items-around">
+              <button class="btn btn-success btn-pch" id="btn_1">Palabras añadidas</button>
+              <button class="btn btn-success btn-pch" id="btn_2">Palabras corregidas</button>
+              <button class="btn btn-success btn-pch" id="btn_3">Imágenes añadidas</button>
+              <button class="btn btn-success btn-pch" id="btn_4">Imágenes corregidas</button>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12">
+              <div class="d-flex flex-wrap justify-content-center align-items-center">
+                <div id="pie">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="dis-60">
           <h2 class="text-center">Frecuencia de las contribuciones como grupo</h2>
-          <p>La frecuencia de contribuciones indica la cantidad de "guardados" de contenido que se hicieron en una fecha determinada.</p>
+          <p class="text-center">La frecuencia de contribuciones indica la cantidad de contribuciones que el grupo realizó en una fecha determinada.</p>
+          <ul>
+          <li>En el eje vertical podrá observar los meses durante los cuales se realizaron las contribuciones.</li>
+          <li>En el eje horizontal podrá observar los días durante los cuales se realizaron las contribuciones.</li>
+          </ul>
         </div>
 @php
 $qts=array();
