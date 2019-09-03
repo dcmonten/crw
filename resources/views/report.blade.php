@@ -521,13 +521,13 @@ foreach($mapa_aporte[$clave] as $colaborador=>$palabras){
           <h2 class="text-center">Detalle de aportes grupales</h2>
           <p>Este gráfico indica el porcentaje de aportes de cada estudiante en el grupo, respecto al tipo de elemento añadido.</p>
           <div class="row dis-60 justify-content-around" id="piechart-container">
-            <div class="col-md-2 col-sm-12 d-flex flex-column justify-content-around align-items-around">
+            <div class="col-lg-2 col-md-12 col-sm-12 d-flex flex-column justify-content-around align-items-around">
               <button class="btn btn-success btn-pch" id="btn_1">Palabras añadidas</button>
               <button class="btn btn-success btn-pch" id="btn_2">Palabras corregidas</button>
               <button class="btn btn-success btn-pch" id="btn_3">Imágenes añadidas</button>
               <button class="btn btn-success btn-pch" id="btn_4">Imágenes corregidas</button>
             </div>
-            <div class="col-lg-8 col-md-8 col-sm-12">
+            <div class="col-lg-8 col-md-12 col-sm-12">
               <div class="d-flex flex-wrap justify-content-center align-items-center">
                 <div id="pie">
                 </div>
