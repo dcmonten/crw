@@ -157,20 +157,17 @@ function getData(){
             document.querySelector("#pie"),
             del
         );
-        pie_dw.render();
 
         var pie_ia = new ApexCharts(
             document.querySelector("#pie"),
             imadd
         );
-        pie_ia.render();
 
 
         var pie_id = new ApexCharts(
             document.querySelector("#pie"),
             imdel
         );
-        pie_id.render();
 
         $( "#btn_1" ).click(function() {
           $("#pie").empty();
