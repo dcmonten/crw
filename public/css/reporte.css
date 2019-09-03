@@ -19,7 +19,12 @@
   padding-left: 5%;
 
 }
+.porcentajes{
 
+  font-weight: bold;
+  font-size: 1.5rem;
+
+}
 .highlight{
   background-color: #faf373;
 }
